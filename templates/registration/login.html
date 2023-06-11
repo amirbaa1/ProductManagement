@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<title>{% block title %}Log In{% endblock title %}</title>
+<br>
+<div class="shadow p-3 mb-5 bg-body-tertiary rounded">
+    <h2>Log In</h2>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div class="mb-3">
+            <input type="text" class="form-control" name="username" placeholder="Enter your Username">
+        </div>
+
+        <div class="mb-3">
+            <input type="password" class="form-control" name="password" placeholder="Enter your password">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+        <br>
+        <br>
+        <p>or</p>
+        <button class="btn btn-primary">
+            <a class="nav-link active" aria-current="page" href="{% url 'signup' %}">Sign Up</a>
+        </button>
+    </form>
+</div>
+{% endblock content %}

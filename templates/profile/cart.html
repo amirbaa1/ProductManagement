@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}
+cart
+{% endblock title %}
+
+{% block content %}
+{% for item in cart_items %}
+{{ item.product.name }}
+
+{% endfor %}
+
+
+<h3>Summary</h3>
+
+<span class="text">Cart Total</span>
+<span class="price">{{ cart_total }}</span>
+
+<span class="text">Total</span>
+<span class="price">${{ total_price }}</span>
+
+
+<p>==============================</p>
+
+<h1>Checkout-cart_2!</h1>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">کالا</th>
+        <th scope="col">تعداد</th>
+        <th scope="col">قیمت</th>
+    </tr>
+    </thead>
+    <tbody class="table-group-divider">
+    {% for item in cart_items %}
+    <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td><a href="{% url 'pro_v' pk=item.product.pk %}">{{ item.product.name }}</a>
+        </td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.product.price }}</td>
+        <td>
+            <form method="post" action="{% url 'delete-cart' pk=item.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">حذف</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<h3>خلاصه</h3>
+
+<span>تعداد کالا</span>
+<span>{{ cart_total }}</span>
+<br>
+<span>قیمت کل</span>
+<span>T {{ total_price }}</span>
+
+
+<table>
+    <tr>
+        <th>Product</th>
+        <th>Quantity</th>
+        <th>Total Price</th>
+    </tr>
+    {% for item in cart %}
+    <tr>
+        <td>{{ item.product.name }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.total_price }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
+
+
+

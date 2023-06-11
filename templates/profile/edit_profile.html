@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="r-text">my Profile</h1>
+<form action="" method="post" class="r-text">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p class="r-text"> * اگر ادرس شهر را عوض کنید کالا شهر مورد نظر شما تغییر خواهد .</p>
+    <button type="submit" class="btn btn-primary">Update</button>
+    <button type="submit" class="btn btn-primary">
+        <a class="nav-link active" aria-current="page" href="{% url 'my_profile' username=user.username %}">Back Profile
+        </a>
+    </button>
+</form>
+{% endblock content %}
+
+

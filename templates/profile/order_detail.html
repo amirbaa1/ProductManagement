@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="order-details r-text">
+    <h1>جزئیات سفارش</h1>
+
+    <h2>اطلاعات کاربر</h2>
+    <p>نام: {{ order.customer.first_name }} {{ order.customer.last_name }}</p>
+    <p>آدرس: {{ order.customer.city }}</p>
+    <!-- سایر اطلاعات مربوط به کاربر -->
+
+    <h2>جزئیات سفارش</h2>
+    <p>شماره سفارش: {{ order.id }}</p>
+    <p>تاریخ سفارش: {{ order.date_order }}</p>
+    <p>وضعیت سفارش: {{ order.status }}</p>
+    <!-- سایر اطلاعات مربوط به سفارش -->
+
+    <h2>لیست محصولات</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>نام محصول</th>
+                <th>تعداد</th>
+                <th>قیمت واحد</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order.order_items.all %}
+            <tr>
+                <td>{{ item.product_variation.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.unit_price }}</td>
+                <td>{{ item.date_order }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>مجموع سفارش</h2>
+    <p>قیمت کل سفارش: {{ order.total_price }} تومان</p>
+    <!-- سایر اطلاعات مربوط به مجموع سفارش -->
+
+    <div class="actions">
+        <!-- دکمه‌ها و اقدامات -->
+    </div>
+</div>
+
+
+
+
+
+    <div class="container">
+        <div class="row" style="margin-top: 6%">
+            <div class="col-md-8 col-md-offset-2">
+                <h3 class="page-header">Thank You For Shopping With Us
+                </h3>
+                <p>Your order has been successfully completed. Your order number is <strong>{{ order.id }}</strong>.</p>
+            </div>
+        </div>
+    </div>
+<p>Your order has been successfully completed. Your order number is <strong>{{ order.id }}</strong>.</p>
+شماره سفارش: {{ order.id }}
+
+
+{% endblock %}

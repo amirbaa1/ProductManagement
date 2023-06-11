@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<title>{% block title %}Product{% endblock title %}</title>
+
+<br>
+<div class="card r-text" style="width: 18rem;">
+    <div class="card-body">
+        <h5 class="card-title">Product Details</h5>
+        <p class="card-text">
+            {{ det_pro_v.name }}
+        </p>
+        <p>{{ det_pro_v.price }}</p>
+        <p>{{ det_pro_v.cityId }}</p>
+        <p><b>تعداد موجودی کالا :</b> {{ det_pro_v.quantity }}</p>
+
+        {% if user.is_authenticated %}
+        <form action="{% url 'add-to-cart' %}" method="post">
+            {% csrf_token %}
+            <input type="number" name="quantity" value="1" min="1" max="{{ det_pro_v.quantity }}">
+            <input type="hidden" name="product_variation_id" value="{{ det_pro_v.pk }}">
+            <button type="submit" class="btn btn-primary">افزودن به سبد</button>
+        </form>
+        {% else %}
+        <p>
+            <button type="submit" class="btn btn-primary">
+                <a class="nav-link active" aria-current="page" href="{% url 'login' %}">
+                    Add to Cart
+                </a>
+            </button>
+        </p>
+
+        {% endif %}
+
+    </div>
+</div>
+
+{% endblock %}

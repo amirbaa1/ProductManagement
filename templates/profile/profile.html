@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1 class="r-text"> Hi {{ user.username }}!
+</h1>
+<br>
+<div class="row r-text">
+    <div class="col-md-4">
+        <button type="button" class="btn btn-outline-primary">
+            <a class="dropdown-item" href="{% url 'edit_profile' username=user.username %}">تنظیمات پروفایل</a>
+        </button>
+
+        <br>
+        <br>
+
+        <div class="card r-text" style="width: 18rem;">
+            <div class="card-header ">
+                پروفایل
+            </div>
+            <ul class="list-group list-group-flush ">
+                <li class="list-group-item"><b>نام : </b>{{ user.first_name }}</li>
+                <li class="list-group-item"><b>نام خانوادگی : </b>{{ user.last_name }}</li>
+                <li class="list-group-item"><b>نام کاربر : </b>{{ user.username }}</li>
+                <li class="list-group-item"><b>شهر : </b>{{ user.city }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="col-md-7">
+        <br>
+        <br>
+        {% for order in orders %}
+
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <h5 class="order-name" style="text-align: left;">سفارش کالا</h5>
+                <div class="order-date" style="text-align: right;">تاریخ سفارش: {{ order.date_order }}</div>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">کالا</th>
+                        <th scope="col">تعداد</th>
+                        <th scope="col">قیمت</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                    {% for item in order.order_items.all %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ item.product_variation }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.unit_price }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+                <a href="{% url 'order-detail' order.pk %}" class="btn btn-primary">مشاهده جزئیات کالا</a>
+            </div>
+        </div>
+        <br>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+
