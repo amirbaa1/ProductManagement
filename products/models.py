@@ -71,3 +71,7 @@ class InventoryProduct(models.Model):
 
     def __str__(self):
         return f"{self.inventoryId}  {self.productId}"
+
+    def update_quantity(self, quantity):
+        self.quantity -= quantity
+        self.save()

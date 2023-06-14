@@ -5,3 +5,9 @@
 .body {
     font-family: Vazirmatn, sans-serif;
 }
+
+.card.touchable:hover {
+  /* استایل مورد نظر برای کادر شناور هنگام لمس */
+  transform: translateY(-5px);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}

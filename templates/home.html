@@ -12,7 +12,7 @@
                 {% for product in product_v %}
                 <div class="col">
 
-                    <div class="card" style="width: 18rem;">
+                    <div class="card touchable" style="width: 18rem;">
 
                         <div class="card-body">
                             {% if product.status == 'موجود' %}
@@ -29,8 +29,11 @@
                                 <br><br>
                                 <button type="button" class="btn btn-outline-primary" disabled>ناموجود</button>
                                 {% else %}
-                                <p>{{ product.productId.price }}</p>
+
                                 <p>انبار : {{ product.inventoryId.cityId }}</p>
+                                <p>
+                                    قیمت : {{ product.productId.price }} تومان
+                                </p>
                                 <!--                                <a href="{% url 'pro_v' product.pk %}" class="btn btn-primary">Go somewhere</a>-->
                                 <!--                                <br>-->
                                 <!--                                <br>-->

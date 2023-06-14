@@ -23,6 +23,7 @@ class AdminInventory(admin.ModelAdmin):
 class AdminInventoryProduct(admin.ModelAdmin):
     list_display = ['inventoryId', 'productId','status']
     list_filter = ['inventoryId', 'productId','status']
+    list_editable = ['status']
 
 
 @admin.register(City)

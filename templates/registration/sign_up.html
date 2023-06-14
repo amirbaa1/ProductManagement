@@ -4,17 +4,17 @@
 <title>{% block title %}Sign Up{% endblock title %}</title>
 <br>
 <div class="shadow-lg p-3 mb-5 bg-body-tertiary rounded">
-<h2>Sign Up</h2>
-<form method="post">
-     <div class="mb-3">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button class="btn btn-primary" type="submit">Sign Up</button>
-    <button class="btn btn-primary" >
-        <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Back in login</a>
-    </button>
-     </div>
-</form>
+    <h2>Sign Up</h2>
+    <form method="post">
+        <div class="mb-3">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-primary" type="submit">Sign Up</button>
+            <button class="btn btn-primary">
+                <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Back in login</a>
+            </button>
+        </div>
+    </form>
 </div>
 
 {% endblock content %}
