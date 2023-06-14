@@ -11,6 +11,7 @@
             <th scope="col">کالا</th>
             <th scope="col">تعداد</th>
             <th scope="col">قیمت</th>
+            <th scope="col">انبار</th>
             <th scope="col">حذف</th>
         </tr>
         </thead>
@@ -21,6 +22,7 @@
             <td><a href="{% url 'pro_v' pk=item.product.pk %}">{{ item.product.name }}</a></td>
             <td>{{ item.quantity }}</td>
             <td>{{ item.product.price }}</td>
+            <td>{{ item.cart.product.inventoryId.cityId }}</td>
 
             <td>
                 <form method="post" action="{% url 'delete-cart' id=item.pk %}">
@@ -35,16 +37,17 @@
     </table>
     <h4 class="page-header">آدرس</h4>
     <p>
-        {{ order_city.0.cityId }}
+        {{ order_city.0.cityId.name }}
     </p>
     <form action="" method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <br>
     </form>
-    <button type="submit" class="btn btn-primary btn-sm"><a class="nav-link active" href="{% url 'home' %}">ادامه خرید</a></button>
+    <button type="submit" class="btn btn-primary btn-sm"><a class="nav-link active" href="{% url 'home' %}">ادامه
+        خرید</a></button>
     <button type="submit" class="btn btn-success btn-sm"><a class="nav-link active"
-                                                     href="{% url 'order_create' %}">خرید</a></button>
+                                                            href="{% url 'order_create' %}">خرید</a></button>
     <h3>خلاصه</h3>
 
     <span>تعداد کالا</span>

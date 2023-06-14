@@ -36,7 +36,17 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <h5 class="order-name" style="text-align: left;">سفارش کالا</h5>
-                <div class="order-date" style="text-align: right;">تاریخ سفارش: {{ order.date_order }}</div>
+                <div class="order-date" style="text-align: right;">
+                    تاریخ سفارش: {{ order.date_order }}
+                    {% if order.status == 'در حال ارسال' %}
+                    <button type="button" class="btn btn-outline-primary" disabled>در حال ارسال</button>
+                    {% elif order.status == 'در حال بررسی سفارش' %}
+                    <button type="button" class="btn btn-outline-warning" disabled>در حال بررسی سفارش</button>
+                    {% else %}
+                    <button type="button" class="btn btn-outline-success" disabled>تحویل شده</button>
+
+                    {% endif %}
+                </div>
             </div>
             <div class="card-body">
                 <table class="table">

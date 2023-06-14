@@ -28,8 +28,9 @@ class Product(models.Model):
     name = models.CharField(max_length=30, verbose_name="نام")
     price = models.IntegerField(verbose_name="قیمت")
     quantity = models.IntegerField(verbose_name="تعداد")
+
     # type = models.CharField(max_length=30, verbose_name="نوع محصول")
-    cityId = models.ForeignKey(City, on_delete=models.CASCADE, null=True, verbose_name="شهر")
+    # cityId = models.ForeignKey(City, on_delete=models.CASCADE, null=True, verbose_name="شهر")
 
     def __str__(self):
         return f"{self.name}"
@@ -42,7 +43,8 @@ class ProductVariation(models.Model):
     price = models.IntegerField(verbose_name='قیمت')
     quantity = models.IntegerField(verbose_name='تعداد')
     text = models.TextField(max_length=2000, null=True, blank=True, verbose_name='توضیح کالا')
-    cityId = models.ForeignKey(City, on_delete=models.CASCADE, verbose_name='شهر')
+
+    # cityId = models.ForeignKey(City, on_delete=models.CASCADE, verbose_name='شهر')
 
     def get_absolute_url(self):
         return reverse('pro_v', args=[str(self.pk)])
@@ -61,9 +63,11 @@ class Inventory(models.Model):
 
 class InventoryProduct(models.Model):
     inventoryProductId = models.AutoField(primary_key=True)
-    inventoryId = models.ForeignKey(Inventory, on_delete=models.CASCADE)
-    productId = models.ForeignKey(ProductVariation, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
+    inventoryId = models.ForeignKey(Inventory, on_delete=models.CASCADE, verbose_name='انبار')
+    productId = models.ForeignKey(ProductVariation, on_delete=models.CASCADE, verbose_name='نام محصول')
+    status = models.CharField(max_length=10, choices=(('موجود', 'موجود'), ('ناموجود', 'ناموجود')), default='موجود')
+
+    # quantity = models.IntegerField()
 
     def __str__(self):
-        return f"{self.inventoryId}  {self.productId} {self.quantity}"
+        return f"{self.inventoryId}  {self.productId}"

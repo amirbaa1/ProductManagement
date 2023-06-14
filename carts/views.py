@@ -1,12 +1,29 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse
+from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import DetailView, DeleteView, CreateView, ListView
-import json
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.shortcuts import redirect
 from .models import Cart, ProductVariation, Order, OrderItem
+from products.models import InventoryProduct
 
+
+# def add_to_cart(request):
+#     current_user = request.user
+#     if request.method == "POST":
+#         if request.user.is_authenticated:
+#             product_id = int(request.POST.get('product_variation_id'))
+#             quantity = int(request.POST.get('quantity'))
+#             product_check = ProductVariation.objects.get(variationId=product_id)
+#             if product_check:
+#                 cart_item = Cart.objects.filter(user=current_user, product_id=product_id).first()
+#                 if cart_item:
+#                     cart_item.quantity += quantity
+#                     cart_item.save()
+#                 else:
+#                     Cart.objects.create(user=current_user, product_id=product_id, quantity=quantity)
+#                 return redirect('checkout')
+#     return redirect('/')
 
 def add_to_cart(request):
     current_user = request.user
@@ -14,8 +31,8 @@ def add_to_cart(request):
         if request.user.is_authenticated:
             product_id = int(request.POST.get('product_variation_id'))
             quantity = int(request.POST.get('quantity'))
-            product_check = ProductVariation.objects.get(variationId=product_id)
-            if product_check:
+            try:
+                product_check = ProductVariation.objects.get(variationId=product_id)
                 cart_item = Cart.objects.filter(user=current_user, product_id=product_id).first()
                 if cart_item:
                     cart_item.quantity += quantity
@@ -23,6 +40,8 @@ def add_to_cart(request):
                 else:
                     Cart.objects.create(user=current_user, product_id=product_id, quantity=quantity)
                 return redirect('checkout')
+            except ObjectDoesNotExist:
+                pass
     return redirect('/')
 
 
