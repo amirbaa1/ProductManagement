@@ -1,7 +1,7 @@
 from django.db import models
 from accounts.models import User
 from products.models import ProductVariation, ProductCategory
-from django_jalali.db import models as jmodels
+# from django_jalali.db import models as jmodels
 
 
 class Order(models.Model):
