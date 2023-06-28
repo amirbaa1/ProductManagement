@@ -23,14 +23,9 @@ class City(models.Model):
         return f"{self.name}"
 
 
-class Product(models.Model):
+class ProductCategory(models.Model):
     productId = models.AutoField(primary_key=True)  # create primary ky by AutoFild
-    name = models.CharField(max_length=30, verbose_name="نام")
-    price = models.IntegerField(verbose_name="قیمت")
-    quantity = models.IntegerField(verbose_name="تعداد")
-
-    # type = models.CharField(max_length=30, verbose_name="نوع محصول")
-    # cityId = models.ForeignKey(City, on_delete=models.CASCADE, null=True, verbose_name="شهر")
+    name = models.CharField(max_length=30)
 
     def __str__(self):
         return f"{self.name}"
@@ -38,19 +33,19 @@ class Product(models.Model):
 
 class ProductVariation(models.Model):
     variationId = models.AutoField(primary_key=True)
-    productId = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='نام دسته بندی')
-    name = models.CharField(max_length=30, verbose_name='نام')
-    price = models.IntegerField(verbose_name='قیمت')
-    quantity = models.IntegerField(verbose_name='تعداد')
-    text = models.TextField(max_length=2000, null=True, blank=True, verbose_name='توضیح کالا')
-
-    # cityId = models.ForeignKey(City, on_delete=models.CASCADE, verbose_name='شهر')
+    productId = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, verbose_name='دسته محصول')
+    name = models.CharField(max_length=30,verbose_name='نام محصول')
+    Supplier = models.ManyToManyField('Supplier')
+    price = models.IntegerField(verbose_name='قیمت (تومان)',help_text='یک بسته 500 گرمی')
+    quantity = models.IntegerField(verbose_name='تعداد کالا')
+    cityId = models.ForeignKey(City, on_delete=models.CASCADE,verbose_name='انبار')
+    text = models.TextField(max_length=1000, null=True, blank=True,help_text='اجبار پر کردن توضیحات نیست',verbose_name='توضیح محصول')
 
     def get_absolute_url(self):
         return reverse('pro_v', args=[str(self.pk)])
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.name} {self.Supplier.first()}"
 
 
 class Inventory(models.Model):
@@ -63,15 +58,18 @@ class Inventory(models.Model):
 
 class InventoryProduct(models.Model):
     inventoryProductId = models.AutoField(primary_key=True)
-    inventoryId = models.ForeignKey(Inventory, on_delete=models.CASCADE, verbose_name='انبار')
-    productId = models.ForeignKey(ProductVariation, on_delete=models.CASCADE, verbose_name='نام محصول')
-    status = models.CharField(max_length=10, choices=(('موجود', 'موجود'), ('ناموجود', 'ناموجود')), default='موجود')
-
-    # quantity = models.IntegerField()
+    productId = models.ForeignKey(ProductVariation, on_delete=models.CASCADE)
+    quantity = models.PositiveSmallIntegerField(verbose_name='تعداد کالا')
+    inventoryId = models.ForeignKey(Inventory, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.inventoryId}  {self.productId}"
+        return f"{self.inventoryId}--{self.productId}"
 
-    def update_quantity(self, quantity):
-        self.quantity -= quantity
-        self.save()
+
+class Supplier(models.Model):
+    SupplierId = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=50, help_text='نام برند یا تامین کنندگان', verbose_name='نام تامین کنندگان')
+    contactInfo = models.IntegerField(verbose_name='شماره تلفن')
+
+    def __str__(self):
+        return f"{self.name}"

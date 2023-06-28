@@ -1,16 +1,31 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1 class="r-text">my Profile</h1>
-<form action="" method="post" class="r-text">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <p class="r-text"> * اگر ادرس شهر را عوض کنید کالا شهر مورد نظر شما تغییر خواهد .</p>
-    <button type="submit" class="btn btn-primary">Update</button>
-    <button type="submit" class="btn btn-primary">
-        <a class="nav-link active" aria-current="page" href="{% url 'my_profile' username=user.username %}">Back Profile
-        </a>
-    </button>
-</form>
+<h1>my Profile</h1>
+<div style="display: flex; justify-content: center;">
+    <div class="card text-center" style="width:450px">
+        <div class="card-body">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">اپدیت</button>
+                <button type="submit" class="btn btn-primary">
+                    <a class="nav-link active" aria-current="page" href="{% url 'my_profile' username=user.username %}">
+                        بازگشت به پروفایل
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left"
+                             width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                             fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M5 12l14 0"></path>
+                            <path d="M5 12l6 6"></path>
+                            <path d="M5 12l6 -6"></path>
+                        </svg>
+
+                    </a>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock content %}
 
 

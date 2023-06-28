@@ -15,6 +15,6 @@ class User(AbstractUser):
 # class Authentication(AbstractUser):
 #     email = models.EmailField(unique=True)
 #     city = models.ForeignKey(City, on_delete=models.CASCADE, null=True)
-#
+
 #     def get_absolute_url(self):
 #         return reverse('my_profile', args=[str(self.username)])

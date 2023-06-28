@@ -3,18 +3,33 @@
 
 <title>{% block title %}Sign Up{% endblock title %}</title>
 <br>
+
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {% if message.tags %}
+        {% endif %}
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% else %}
+    {% endif %}
+
 <div class="shadow-lg p-3 mb-5 bg-body-tertiary rounded">
-    <h2>Sign Up</h2>
-    <form method="post">
-        <div class="mb-3">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button class="btn btn-primary" type="submit">Sign Up</button>
-            <button class="btn btn-primary">
-                <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Back in login</a>
-            </button>
-        </div>
-    </form>
+<h2>Sign Up</h2>
+<form method="post">
+     <div class="mb-3">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-primary" type="submit">Sign Up</button>
+    <button class="btn btn-primary" >
+        <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Back in login</a>
+    </button>
+     </div>
+
+</form>
 </div>
 
 {% endblock content %}

@@ -1,51 +1,89 @@
 {% extends 'base.html' %}
 {% block content %}
 
-
+<br>
+<button type="submit" class="btn btn-danger btn-sm" style="float:left"><a class="nav-link active"
+                                                       href="{% url 'my_profile' user.username %}">بازگشت به پروفایل
+<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M5 12l14 0"></path>
+   <path d="M5 12l6 6"></path>
+   <path d="M5 12l6 -6"></path>
+</svg>
+</a></button>
 <div class="order-details r-text">
+
     <h1>جزئیات سفارش</h1>
+    <div class="card">
+        <div class="card-body">
+            <h2>اطلاعات کاربر</h2>
+            <p>نام: {{ order.customer.first_name }} {{ order.customer.last_name }}</p>
+            <p>آدرس: {{ order.customer.city }}</p>
 
-    <h2>اطلاعات کاربر</h2>
-    <p>نام: {{ order.customer.first_name }} {{ order.customer.last_name }}</p>
-    <p>آدرس: {{ order.customer.city }}</p>
-    <!-- سایر اطلاعات مربوط به کاربر -->
+        </div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="card-body">
+            <h2>جزئیات سفارش</h2>
+            <p>شماره سفارش: {{ order.id }}</p>
+            <p>تاریخ سفارش: {{ order.date_order }}</p>
+            <p>وضعیت سفارش: {{ order.status }}</p>
 
-    <h2>جزئیات سفارش</h2>
-    <p>شماره سفارش: {{ order.id }}</p>
-    <p>تاریخ سفارش: {{ order.date_order }}</p>
-    <p>وضعیت سفارش: {{ order.status }}</p>
-    <!-- سایر اطلاعات مربوط به سفارش -->
+        </div>
+    </div>
 
-    <h2>لیست محصولات</h2>
-    <table>
-        <thead>
-        <tr>
-            <th>نام محصول</th>
-            <th>تعداد</th>
-            <th>قیمت واحد</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for item in order.order_items.all %}
-        <tr>
-            <td>{{ item.product_variation.name }}</td>
-            <td>{{ item.quantity }}</td>
-            <td>{{ item.unit_price }}</td>
-            <td>{{ item.date_order }}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 
-    <h2>مجموع سفارش</h2>
-    <p>قیمت کل سفارش: {{ order.total_price }} تومان</p>
-    <!-- سایر اطلاعات مربوط به مجموع سفارش -->
-
-    <div class="actions">
-        <!-- دکمه‌ها و اقدامات -->
+    <!--    <table>-->
+    <!--        <thead>-->
+    <!--        <tr>-->
+    <!--            <th>نام محصول</th>-->
+    <!--            <th>تعداد</th>-->
+    <!--            <th>قیمت واحد</th>-->
+    <!--        </tr>-->
+    <!--        </thead>-->
+    <!--        <tbody>-->
+    <!--        {% for item in order.order_items.all %}-->
+    <!--        <tr>-->
+    <!--            <td>{{ item.product_variation.name }}</td>-->
+    <!--            <td>{{ item.quantity }}</td>-->
+    <!--            <td>{{ item.unit_price }}</td>-->
+    <!--            <td>{{ item.date_order }}</td>-->
+    <!--        </tr>-->
+    <!--        {% endfor %}-->
+    <!--        </tbody>-->
+    <!--    </table>-->
+    <br>
+    <div class="card">
+        <div class="card-body">
+            <h2>لیست محصولات</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">کالا</th>
+                    <th scope="col">تعداد</th>
+                    <th scope="col">موجود در انبار</th>
+                    <th scope="col">قیمت</th>
+                </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                {% for item in order.order_items.all %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td><a href="{% url 'pro_v' pk=item.product_variation.pk %}">{{ item.product_variation }}</a></td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.city }}</td>
+                    <td>{{ item.unit_price }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <h2>مجموع سفارش</h2>
+        <p>قیمت کل سفارش: {{ order.total_price }}</p>
     </div>
 </div>
-
 
 <div class="container">
     <div class="row" style="margin-top: 6%">
@@ -56,12 +94,5 @@
         </div>
     </div>
 </div>
-<p>Your order has been successfully completed. Your order number is <strong>{{ order.id }}</strong>.</p>
-شماره سفارش: {{ order.id }}
-<br>
-<button type="submit" class="btn btn-primary">
-    <a class="nav-link active" aria-current="page" href="{% url 'my_profile' username=user.username %}">Back Profile
-    </a>
-</button>
 
 {% endblock %}

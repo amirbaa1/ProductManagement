@@ -1,13 +1,24 @@
 .r-text {
     direction: rtl;
 }
-
+.r-nav-text{
+    float:right
+}
 .body {
     font-family: Vazirmatn, sans-serif;
+    background-color: #f9f9f9;
 }
+
+.navbar-nav {
+    margin-left: auto;
+    }
 
 .card.touchable:hover {
   /* استایل مورد نظر برای کادر شناور هنگام لمس */
   transform: translateY(-5px);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.custom-float-left {
+     text-align: left;
 }

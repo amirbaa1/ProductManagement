@@ -1,29 +1,10 @@
 from django.shortcuts import render, get_object_or_404
-from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic import DetailView, DeleteView, CreateView, ListView
 from django.urls import reverse_lazy
-from django.contrib import messages
 from django.shortcuts import redirect
 from .models import Cart, ProductVariation, Order, OrderItem
-from products.models import InventoryProduct
+from django.contrib.messages.views import SuccessMessageMixin
 
-
-# def add_to_cart(request):
-#     current_user = request.user
-#     if request.method == "POST":
-#         if request.user.is_authenticated:
-#             product_id = int(request.POST.get('product_variation_id'))
-#             quantity = int(request.POST.get('quantity'))
-#             product_check = ProductVariation.objects.get(variationId=product_id)
-#             if product_check:
-#                 cart_item = Cart.objects.filter(user=current_user, product_id=product_id).first()
-#                 if cart_item:
-#                     cart_item.quantity += quantity
-#                     cart_item.save()
-#                 else:
-#                     Cart.objects.create(user=current_user, product_id=product_id, quantity=quantity)
-#                 return redirect('checkout')
-#     return redirect('/')
 
 def add_to_cart(request):
     current_user = request.user
@@ -31,8 +12,10 @@ def add_to_cart(request):
         if request.user.is_authenticated:
             product_id = int(request.POST.get('product_variation_id'))
             quantity = int(request.POST.get('quantity'))
-            try:
-                product_check = ProductVariation.objects.get(variationId=product_id)
+            # address = request.POST.get('city_address')  # دریافت آدرس از درخواست POST
+
+            product_check = ProductVariation.objects.get(variationId=product_id)
+            if product_check:
                 cart_item = Cart.objects.filter(user=current_user, product_id=product_id).first()
                 if cart_item:
                     cart_item.quantity += quantity
@@ -40,8 +23,8 @@ def add_to_cart(request):
                 else:
                     Cart.objects.create(user=current_user, product_id=product_id, quantity=quantity)
                 return redirect('checkout')
-            except ObjectDoesNotExist:
-                pass
+        # city_user = User.objects.all()
+        # return render(request, 'profile/checkout.html', context={'city_user': city_user})
     return redirect('/')
 
 
@@ -58,6 +41,8 @@ def checkout(request):
         for item in cart_items:
             total_price += (item.product.price) * item.quantity
             cart_total += item.quantity
+            # total_price += (item.product_variation.price) * item.quantity
+            # cart_total += item.quantity
         context['total_price'] = total_price
         context['cart_total'] = cart_total
 
@@ -72,14 +57,17 @@ class CartItemDeleteView(DeleteView):
 
 def create_order(request):
     cart_items = Cart.objects.filter(user=request.user)
+
     if not cart_items:
         return redirect('checkout')
 
     total_price = 0
     order = Order.objects.create(customer=request.user)
     for cart_item in cart_items:
-        order_item = OrderItem.objects.create(order=order, product_variation=cart_item.product,
+        order_item = OrderItem.objects.create(order=order,
+                                              product_variation=cart_item.product,
                                               quantity=cart_item.quantity,
+                                              city=cart_item.product.cityId,
                                               unit_price=cart_item.product.price)
         total_price += order_item.unit_price * order_item.quantity
 
@@ -89,6 +77,15 @@ def create_order(request):
     cart_items.delete()
 
     return render(request, 'profile/order_detail.html', {'order': order})
+
+
+def order_detail(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+
+    context = {
+        'order': order
+    }
+    return render(request, 'profile/order_detail.html', context)
 
 
 class OrderDetailView(DetailView):

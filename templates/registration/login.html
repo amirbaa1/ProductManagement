@@ -3,6 +3,19 @@
 
 <title>{% block title %}Log In{% endblock title %}</title>
 <br>
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {% if message.tags %}
+        {% endif %}
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% else %}
+    {% endif %}
+
 <div class="shadow p-3 mb-5 bg-body-tertiary rounded">
     <h2>Log In</h2>
     <form method="post" action="{% url 'login' %}">
@@ -15,13 +28,13 @@
             <input type="password" class="form-control" name="password" placeholder="Enter your password">
         </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">ورود</button>
 
         <br>
         <br>
         <p>or</p>
         <button class="btn btn-primary">
-            <a class="nav-link active" aria-current="page" href="{% url 'signup' %}">Sign Up</a>
+            <a class="nav-link active" aria-current="page" href="{% url 'signup' %}">اکانت ندارید،ثبت نام کنید.</a>
         </button>
     </form>
 </div>

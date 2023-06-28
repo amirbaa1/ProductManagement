@@ -2,58 +2,94 @@
 {% block content %}
 
 <br>
-<div class="shadow p-3 mb-5 bg-body-tertiary rounded r-text">
-    <h1 class="page-header">سبد خرید</h1>
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">کالا</th>
-            <th scope="col">تعداد</th>
-            <th scope="col">قیمت</th>
-            <th scope="col">انبار</th>
-            <th scope="col">حذف</th>
-        </tr>
-        </thead>
-        <tbody class="table-group-divider">
-        {% for item in cart_items %}
-        <tr>
-            <th scope="row">{{ forloop.counter }}</th>
-            <td><a href="{% url 'pro_v' pk=item.product.pk %}">{{ item.product.name }}</a></td>
-            <td>{{ item.quantity }}</td>
-            <td>{{ item.product.price }}</td>
-            <td>{{ item.cart.product.inventoryId.cityId }}</td>
-
-            <td>
-                <form method="post" action="{% url 'delete-cart' id=item.pk %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger btn-sm">حذف</button>
-                </form>
-
-            </td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <h4 class="page-header">آدرس</h4>
-    <p>
-        {{ order_city.0.cityId.name }}
-    </p>
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
+<!--<div class="shadow p-3 mb-5 bg-body-tertiary rounded">-->
+<br>
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+<div class="card">
+    <div class="card-body">
+        <h1>سبد خرید</h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">کالا</th>
+                <th scope="col">تعداد</th>
+                <th scope="col">قیمت</th>
+                <th scope="col">موجود در انبار</th>
+                <th scope="col">حذف</th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider">
+            {% for item in cart_items %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td><a href="{% url 'pro_v' pk=item.product.pk %}">{{ item.product.name }} - 500 گرم</a></td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.product.price }}</td>
+                <td>{{ item.product.cityId }}</td>
+                <td>
+                    <form method="post" action="{% url 'delete-cart' id=item.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">حذف
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
+                                 width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                 fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M4 7l16 0"></path>
+                                <path d="M10 11l0 6"></path>
+                                <path d="M14 11l0 6"></path>
+                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                            </svg>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <input type="text" name="city_address" placeholder="آدرس" required>
         <br>
-    </form>
-    <button type="submit" class="btn btn-primary btn-sm"><a class="nav-link active" href="{% url 'home' %}">ادامه
-        خرید</a></button>
-    <button type="submit" class="btn btn-success btn-sm"><a class="nav-link active"
-                                                            href="{% url 'order_create' %}">خرید</a></button>
-    <h3>خلاصه</h3>
+        <button type="submit" class="btn btn-danger btn-sm"><a class="nav-link active" href="{% url 'home' %}">برگشت به
+            فروشگاه
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left" width="24"
+                 height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                 stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M5 12l14 0"></path>
+                <path d="M5 12l6 6"></path>
+                <path d="M5 12l6 -6"></path>
+            </svg>
+        </a></button>
+        <button type="submit" class="btn btn-primary btn-sm"><a class="nav-link active" href="{% url 'order_create' %}">
+            خرید
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shopping-cart" width="24"
+                 height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                 stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M6 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                <path d="M17 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                <path d="M17 17h-11v-14h-2"></path>
+                <path d="M6 5l14 1l-1 7h-13"></path>
+            </svg>
+        </a></button>
 
-    <span>تعداد کالا</span>
-    <span>{{ cart_total }}</span>
-    <br>
-    <span>قیمت کل</span>
-    <span>T {{ total_price }}</span>
+        <h3>خلاصه</h3>
+
+        <span>تعداد کالا</span>
+        <span>{{ cart_total }}</span>
+        <br>
+        <span>قیمت کل</span>
+        <span>T {{ total_price }}</span>
+        <!--</div>-->
+    </div>
 </div>
 {% endblock %}

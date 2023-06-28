@@ -2,68 +2,83 @@
 {% block content %}
 <title>{% block title %}Home{% endblock title %}</title>
 
-<h1>Home page</h1>
-<!--<h5 class="r-text">موقعیت محلی شما در {{ product_v.0.cityId }} هستید.</h5>-->
+<div class="d-flex justify-content-between align-items-center">
+    <h1>Home page</h1>
+    {% if user.is_superuser %}
+<!--    <button type="button" class="btn btn-primary btn">-->
+<!--        <a class="nav-link active" href="{% url 'add_product' %}"><b> + </b> اضافه کردن محصولات در فروشگاه</a>-->
+<!--    </button>-->
+    <button type="button" class="btn btn-primary btn">
+        <a class="nav-link active" href="{% url 'panel_admin' %}"> پنل ادمین </a>
+    </button>
+    {% endif %}
+</div>
 <br>
-<div class="container text-center">
+
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {% if message.tags %}
+        {% endif %}
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <!-- موقعیت شما: <b>{{ product_v.0.cityId }}</b> و انبار موقعیت مکان شما را نمایش خواهد داد. -->
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+{% endif %}
+
+<div class="container">
     <div class="row">
         <div class="col-md-9">
-            <div class="row row-cols-3">
+            <div class="row">
+
                 {% for product in product_v %}
-                <div class="col">
 
-                    <div class="card touchable" style="width: 18rem;">
-
-                        <div class="card-body">
-                            {% if product.status == 'موجود' %}
-
-                            <a href="{% url 'pro_v' product.pk %}" style="text-decoration: none; color: #212529;">
-
-                                <h5 class="card-title">{{ product.productId.name }}</h5>
-                                <p class="card-text">{{ product.productId.name }}</p>
-                                {% endif %}
-                                {% if product.status == 'ناموجود' %}
-                                <h5 class="card-title">{{ product.productId.name }}</h5>
-                                <p class="card-text">{{ product.productId.name }}</p>
-                                انبار : {{ product.inventoryId.cityId }}
-                                <br><br>
-                                <button type="button" class="btn btn-outline-primary" disabled>ناموجود</button>
-                                {% else %}
-
-                                <p>انبار : {{ product.inventoryId.cityId }}</p>
-                                <p>
-                                    قیمت : {{ product.productId.price }} تومان
-                                </p>
-                                <!--                                <a href="{% url 'pro_v' product.pk %}" class="btn btn-primary">Go somewhere</a>-->
-                                <!--                                <br>-->
-                                <!--                                <br>-->
-                                {% endif %}
-                            </a>
+                <div class="col-md-4 text-center">
+                    <a href="{% url 'pro_v' product.pk %}" style="text-decoration: none; color: #212529;">
+                        <div class="card touchable" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ product.name }} {{ product.Supplier.first }} - 500 گرم</h5>
+                                <p class="card-text">انبار: {{ product.cityId }}</p>
+                                <p class="card-text">{{ product.price }}: قیمت</p>
+                                <!--<a href="{% url 'pro_v' product.pk %}" class="btn btn-primary">Go somewhere</a>-->
+                                <!--                                {% for inv_product in inv_status %}-->
+                                <!--                                <p>{{ inv_product.status }}</p>-->
+                                <!--                                {% endfor %}-->
+                            </div>
                         </div>
-
-                    </div>
-
-                    <br>
+                        <br>
+                    </a>
                 </div>
+
                 {% endfor %}
+
             </div>
         </div>
         <div class="col-md-3">
-            <div class="r-text" style="position: sticky; top: 0;">
-                <ul class="list-group">
-                    {% for product in products %}
-                    <li class="list-group-item">
-                        <a href="/products/{{ product.id }}/"> {{ product.name }}</a>
-                    </li>
+            <div style="width: 18rem;">
+                <div class="list-group text-center">
+                    <a href="{% url 'home' %}" class="list-group-item list-group-item-action list-group-item-light"
+                       style="text-decoration: none; color: black;">
+                        تمام محصولات/انبار محلی
+                    </a>
+                    {% for c in cat %}
+                    <a href="/?categories={{ c.pk }}"
+                       class="list-group-item list-group-item-action list-group-item-light"
+                       style="text-decoration: none; color: black;">
+                        {{ c.name }}
+                    </a>
                     {% endfor %}
-                </ul>
+                </div>
             </div>
-
         </div>
-
     </div>
 </div>
 
-
-<br>
 {% endblock %}

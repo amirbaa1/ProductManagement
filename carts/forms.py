@@ -1,5 +1,5 @@
 from django import forms
-from products.models import ProductVariation, Inventory, InventoryProduct
+from products.models import ProductVariation
 from .models import Order, OrderItem
 
 
@@ -7,22 +7,12 @@ class OrderForm(forms.ModelForm):
     items = forms.ModelMultipleChoiceField(queryset=OrderItem.objects.all())
 
     def __init__(self, *args, **kwargs):
-        product_variation = kwargs.pop('product_variation', None)
+        product_variation_id = kwargs.pop('product_variation_id', None)
         super().__init__(*args, **kwargs)
-        if product_variation:
-            self.fields['items'].queryset = OrderItem.objects.filter(product_variation=product_variation)
-
-    class Meta:
-        model = Order
-        fields = ['customer', 'items']
-
-    # def __init__(self, *args, **kwargs):
-    #     product_variation_id = kwargs.pop('product_variation_id', None)
-    #     super().__init__(*args, **kwargs)
-    #     if product_variation_id:
-    #         product_variation = ProductVariation.objects.filter(pk=product_variation_id).first()
-    #         if product_variation:
-    #             self.fields['items'].queryset = OrderItem.objects.filter(product_variation=product_variation)
+        if product_variation_id:
+            product_variation = ProductVariation.objects.filter(pk=product_variation_id).first()
+            if product_variation:
+                self.fields['items'].queryset = OrderItem.objects.filter(product_variation=product_variation)
 
     class Meta:
         model = Order
@@ -31,7 +21,7 @@ class OrderForm(forms.ModelForm):
 
 class AddToCartForm(forms.Form):
     quantity = forms.IntegerField(initial=1, min_value=1)
-    product_variation_id = forms.IntegerField(widget=forms.HiddenInput)
+    product = forms.IntegerField(widget=forms.HiddenInput)
 
 
 class OrderCreateForm(forms.ModelForm):
@@ -40,9 +30,10 @@ class OrderCreateForm(forms.ModelForm):
         fields = '__all__'
 
 
-class InventoryForm(forms.Form):
-    inventory = forms.ModelChoiceField(queryset=Inventory.objects.all(), empty_label=None, label='انبار')
+class Status_Update(forms.ModelForm):
+    status = forms.ChoiceField(label='تغییر وضعیت سفارش', choices=Order.STATUS_CHOICES,
+                               widget=forms.Select(attrs={'class': 'form-control'}))
 
-    # class Meta:
-    #     model = InventoryProduct
-    #     field = ['inventoryId']
+    class Meta:
+        model = Order
+        fields = ['status']
