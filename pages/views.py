@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, UpdateView
 from carts.forms import Status_Update
-from products.models import Supplier
+from products.models import Supplier, InventoryProduct
 from carts.models import OrderItem, Order
 from django.contrib import messages
 
@@ -69,6 +69,17 @@ class View_Order(View):
             messages.success(request, 'سفارش با موفقیت تغییر کرد.')
 
         return render(request, 'admin/order_costumer.html', {'order': order, 'status_form': status_form})
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return HttpResponseForbidden("<b><h2>دسترسی ممنوع است</h2></b><h4> .فقط مدیر سایت میتواند وارد شود</h4>")
+        return super().dispatch(request, *args, **kwargs)
+
+
+class ViewInventory(ListView):
+    model = InventoryProduct
+    template_name = 'admin/Inventory.html'
+    context_object_name = 'inv_list'
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_superuser:

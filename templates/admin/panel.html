@@ -2,17 +2,55 @@
 {% block content %}
 <br>
 
-    <h1>مدیریت فروشگاه</h1>
-    <br>
+<h1>مدیریت فروشگاه</h1>
+<br>
 <div class="d-flex justify-content-between align-items-center">
     {% if user.is_superuser %}
-    <button type="button" class="btn btn-primary btn">
-        <a class="nav-link active" href="{% url 'add_product' %}"><b> + </b> اضافه کردن محصولات در فروشگاه</a>
-    </button>
-    <button type="button" class="btn btn-primary btn">
-        <a class="nav-link active" href="{% url 'list_order_customer' %}"> سفارش مشتری </a>
-    </button>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5><b> + </b> اضافه کردن محصولات در فروشگاه</h5>
+                <br>
+                <button type="button" class="btn btn-primary btn">
+                    <a class="nav-link active" href="{% url 'add_product' %}"><b> + </b> اضافه کردن</a>
+                </button>
+            </div>
+        </div>
+        <br>
+        <div class="card">
+            <div class="card-body text-center">
+                <h5>سفارش مشتری</h5>
+                <br>
+                <button type="button" class="btn btn-primary btn">
+                    <a class="nav-link active" href="{% url 'list_order_customer' %}"> لیست سفارش‌ها</a>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5>محصول</h5>
+                <br>
+                <button type="button" class="btn btn-primary btn">
+                    <a class="nav-link active" href="#"> اضافه کردن</a>
+                </button>
+            </div>
+        </div>
+        <br>
+        <div class="card">
+            <div class="card-body text-center">
+                <h5>انبار</h5>
+                <br>
+                <button type="button" class="btn btn-primary btn">
+                    <a class="nav-link active" href="{% url 'list_inv' %}"> اضافه کردن</a>
+                </button>
+            </div>
+        </div>
+    </div>
+
     {% endif %}
 </div>
+
 
 {% endblock %}

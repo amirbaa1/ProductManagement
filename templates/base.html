@@ -4,7 +4,7 @@
 <head>
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
-<link rel="stylesheet" href="{% static 'css/web_css.css' %}">
+    <link rel="stylesheet" href="{% static 'css/web_css.css' %}">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Store{% endblock title %}</title>
@@ -21,14 +21,18 @@
 
     <div class="container-fluid ">
 
-                <a class="navbar-brand" href="{% url 'home' %} "><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-lemon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-   <path d="M17.536 3.393c3.905 3.906 3.905 10.237 0 14.143c-3.906 3.905 -10.237 3.905 -14.143 0l14.143 -14.143"></path>
-   <path d="M5.868 15.06a6.5 6.5 0 0 0 9.193 -9.192"></path>
-   <path d="M10.464 10.464l4.597 4.597"></path>
-   <path d="M10.464 10.464v6.364"></path>
-   <path d="M10.464 10.464h6.364"></path>
-</svg>Store</a>
+        <a class="navbar-brand" href="{% url 'home' %} ">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-lemon" width="24" height="24"
+                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                 stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M17.536 3.393c3.905 3.906 3.905 10.237 0 14.143c-3.906 3.905 -10.237 3.905 -14.143 0l14.143 -14.143"></path>
+                <path d="M5.868 15.06a6.5 6.5 0 0 0 9.193 -9.192"></path>
+                <path d="M10.464 10.464l4.597 4.597"></path>
+                <path d="M10.464 10.464v6.364"></path>
+                <path d="M10.464 10.464h6.364"></path>
+            </svg>
+            Store</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -44,6 +48,11 @@
                 <li>
                     <a class="nav-link" aria-current="page" href="{% url 'contact_us' %}">ارتباط با ما</a>
                 </li>
+                {% if user.is_superuser %}
+                <li>
+                    <a class="nav-link" aria-current="page" href="{% url 'panel_admin' %}">پنل ادمین</a>
+                </li>
+                {% endif %}
 
                 <li>
                     <a class="nav-link" aria-current="page" href="https://github.com/amirbaa1" target="_blank">
