@@ -47,11 +47,11 @@ python manage.py runserver
                     </tbody>
 </table>
 <br>
-----
+
+---
 ## front-end
 * html
 * css
 * bootstrap
-
 
 ---
