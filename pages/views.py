@@ -1,11 +1,14 @@
 from django.http import HttpResponseForbidden, Http404
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import TemplateView, ListView, DetailView, UpdateView, CreateView
+from django.views.generic import TemplateView, ListView, DetailView, UpdateView, CreateView, DeleteView
 from carts.forms import Status_Update
+from products.forms import Form_add_cityInventory, Form_add_Inventory_product
 from products.models import Supplier, InventoryProduct, Inventory
 from carts.models import OrderItem, Order
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 class AboutPage(ListView):
@@ -87,21 +90,74 @@ class ViewInventory(ListView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class add_InventoryProduct(CreateView):
+class Delete_Inventory(SuccessMessageMixin, DeleteView):
+    model = InventoryProduct
+    success_url = reverse_lazy('list_inv')
+    pk_url_kwarg = 'id'
+
+    def get_success_message(self, cleaned_data):
+        return f'انبار {self.object.inventoryId} و محصول {self.object.productId} حذف شد .'
+
+
+class add_InventoryProduct(SuccessMessageMixin, CreateView):
     model = InventoryProduct
     template_name = 'admin/add_InventoryPro.html'
-    fields = '__all__'
+    # fields = '__all__'
+    form_class = Form_add_Inventory_product
     context_object_name = 'add_inv_pro'
+
+    def get_success_message(self, cleaned_data):
+        return f'محصول {self.object.productId} در انبار {self.object.inventoryId} اضافه شد. '
 
 
 class List_city_Inventory(ListView):
     model = Inventory
     template_name = 'admin/list_inventory.html'
-    context_object_name = 'list_inv_city'
+    context_object_name = 'list_invcity'
+    ordering = ['-inventoryId']
 
 
-class add_cityInventory(CreateView):  # TODO fix error ImproperlyConfigured
+class add_cityInventory(SuccessMessageMixin, CreateView):
     model = Inventory
     template_name = 'admin/add_city_inventory.html'
-    fields = '__all__'
+    # fields = '__all__'
+    form_class = Form_add_cityInventory
     context_object_name = 'add_city_inv'
+
+    # success_message = 'انبار اضافه شد.'
+
+    def get_success_message(self, cleaned_data):
+        return f'انبار {self.object.cityId} اضافه شد.'
+
+
+class Delete_city_inventory(SuccessMessageMixin, DeleteView):
+    model = Inventory
+    success_url = reverse_lazy('list_cit_inv')
+    pk_url_kwarg = 'id'
+
+    def get_success_message(self, cleaned_data):
+        return f'انبار {self.object.cityId} حذف شد.'
+
+
+class List_Supplier(ListView):
+    model=Supplier
+    template_name="admin/supplier.html"
+    context_object_name='sup_list'
+
+class Delete_Supplier(SuccessMessageMixin,DeleteView):
+    model=Supplier
+    success_url=reverse_lazy('link_sup_list')
+    pk_url_kwarg='id'
+
+    def get_success_message(self, cleaned_data):
+        return f"تامین کننده {self.object.name} حذف شد."
+    
+class add_Supplier(SuccessMessageMixin, CreateView):
+    model = Supplier
+    template_name = 'admin/add_supplier.html'
+    fields = '__all__'
+    # form_class = Form_add_cityInventory
+    context_object_name = 'add_spp'
+
+    def get_success_message(self, cleaned_data):
+        return f'نام تامین کننده {self.object.name} اضافه شد.'

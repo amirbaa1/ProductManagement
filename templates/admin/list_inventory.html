@@ -2,6 +2,16 @@
 
 {% block content %}
 <br>
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
 <button type="submit" class="btn btn-danger btn-sm" style="float:left"><a class="nav-link active"
                                                                           href="{% url 'list_inv' %}">
     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left" width="24" height="24"
@@ -26,14 +36,33 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">انبار</th>
+                <th scope="col">حذف</th>
 
             </tr>
             </thead>
             <tbody class="table-group-divider">
-            {% for i in list_inv_city %}
+            {% for i in list_invcity %}
             <tr>
                 <th scope="row">{{ forloop.counter }}</th>
                 <td>{{i.cityId}}</td>
+                <td>
+                    <form method="post" action="{% url 'delete-inv_city' i.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">حذف
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
+                                 width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                 fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M4 7l16 0"></path>
+                                <path d="M10 11l0 6"></path>
+                                <path d="M14 11l0 6"></path>
+                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                            </svg>
+                        </button>
+                    </form>
+                </td>
+
             </tr>
             {% endfor %}
             </tbody>

@@ -3,7 +3,7 @@
 {% block content %}
 <br>
 <button type="submit" class="btn btn-danger btn-sm" style="float:left"><a class="nav-link active"
-                                                                          href="{% url 'list_inv' %}">
+                                                                          href="{% url 'link_sup_list' %}">
     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left" width="24" height="24"
          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
          stroke-linejoin="round">
@@ -22,7 +22,7 @@
             <form action="" method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button type="submit" class="btn btn-primary">اضافه کردن در لیست انبار</button>
+                <button type="submit" class="btn btn-primary">اضافه کردن تامین کننده</button>
             </form>
         </div>
     </div>

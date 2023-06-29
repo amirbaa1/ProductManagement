@@ -32,7 +32,7 @@ class OrderCreateForm(forms.ModelForm):
 
 class Status_Update(forms.ModelForm):
     status = forms.ChoiceField(label='تغییر وضعیت سفارش', choices=Order.STATUS_CHOICES,
-                               widget=forms.Select(attrs={'class': 'form-control'}))
+                               widget=forms.Select(attrs={'class': 'form-select'}))
 
     class Meta:
         model = Order

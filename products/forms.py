@@ -1,6 +1,5 @@
-# TODO form create product
 from django import forms
-from .models import ProductVariation, ProductCategory, Supplier, City
+from .models import ProductVariation, ProductCategory, Supplier, City, Inventory, InventoryProduct
 
 
 class Form_add_product(forms.ModelForm):
@@ -17,3 +16,24 @@ class Form_add_product(forms.ModelForm):
     class Meta:
         model = ProductVariation
         fields = ['productId', 'name', 'Supplier', 'price', 'quantity', 'cityId']
+
+
+class Form_add_cityInventory(forms.ModelForm):
+    cityId = forms.ModelChoiceField(label='شهر', queryset=City.objects.all(),
+                                    widget=forms.Select(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = Inventory
+        fields = ['cityId']
+
+
+class Form_add_Inventory_product(forms.ModelForm):
+    productId = forms.ModelChoiceField(label='نام محصول', queryset=ProductVariation.objects.all(),
+                                       widget=forms.Select(attrs={'class': 'form-control'}))
+    quantity = forms.IntegerField(label='تعداد', widget=forms.TextInput(attrs={'class': 'form-control'}))
+    inventoryId = forms.ModelChoiceField(label='شهر', queryset=Inventory.objects.all(),
+                                    widget=forms.Select(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = InventoryProduct
+        fields = ['productId','quantity','inventoryId']

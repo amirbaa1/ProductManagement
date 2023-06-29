@@ -1,7 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.urls import path
-from .views import AboutPage, ContactUsPage, Panel_Admin, Panel_AdminOrder, View_Order, ViewInventory, \
-    add_InventoryProduct, List_city_Inventory,add_cityInventory
+from .views import *
 from products.views import ProductListViews
 
 urlpatterns = [
@@ -15,5 +14,12 @@ urlpatterns = [
     path('panel/inventory/', ViewInventory.as_view(), name='list_inv'),
     path('panel/add-inventory-product/', add_InventoryProduct.as_view(), name='link_add_inv_pro'),
     path('panel/list-inventory-city/', List_city_Inventory.as_view(), name='list_cit_inv'),
-    path('panel/add-inventory-city/',add_cityInventory.as_view(),name = 'add_city_inv')
+    path('panel/add-inventory-city/', add_cityInventory.as_view(), name='add_city_inv'),
+    path('panel/add-inventory-city/delete/<int:id>/', Delete_city_inventory.as_view(), name='delete-inv_city'),
+    path('panel/inventory/delete/<int:id>/', Delete_Inventory.as_view(), name='delete-inv'),
+    path('panel/supplier/', List_Supplier.as_view(), name='link_sup_list'),
+    path('panel/supplier/delete/<int:id>/', Delete_Supplier.as_view(), name='delete_sup'),
+    path('panel/supplier/add/', add_Supplier.as_view(), name='add_sup'),
+
+    
 ]

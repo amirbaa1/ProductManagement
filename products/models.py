@@ -1,5 +1,5 @@
 from django.db import models
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 
 class City(models.Model):
@@ -34,12 +34,13 @@ class ProductCategory(models.Model):
 class ProductVariation(models.Model):
     variationId = models.AutoField(primary_key=True)
     productId = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, verbose_name='دسته محصول')
-    name = models.CharField(max_length=30,verbose_name='نام محصول')
+    name = models.CharField(max_length=30, verbose_name='نام محصول')
     Supplier = models.ManyToManyField('Supplier')
-    price = models.IntegerField(verbose_name='قیمت (تومان)',help_text='یک بسته 500 گرمی')
+    price = models.IntegerField(verbose_name='قیمت (تومان)', help_text='یک بسته 500 گرمی')
     quantity = models.IntegerField(verbose_name='تعداد کالا')
-    cityId = models.ForeignKey(City, on_delete=models.CASCADE,verbose_name='انبار')
-    text = models.TextField(max_length=1000, null=True, blank=True,help_text='اجبار پر کردن توضیحات نیست',verbose_name='توضیح محصول')
+    cityId = models.ForeignKey(City, on_delete=models.CASCADE, verbose_name='انبار')
+    text = models.TextField(max_length=1000, null=True, blank=True, help_text='اجبار پر کردن توضیحات نیست',
+                            verbose_name='توضیح محصول')
 
     def get_absolute_url(self):
         return reverse('pro_v', args=[str(self.pk)])
@@ -55,6 +56,9 @@ class Inventory(models.Model):
     def __str__(self):
         return f"{self.cityId}"
 
+    def get_absolute_url(self):
+        return reverse_lazy('list_cit_inv')
+
 
 class InventoryProduct(models.Model):
     inventoryProductId = models.AutoField(primary_key=True)
@@ -65,6 +69,9 @@ class InventoryProduct(models.Model):
     def __str__(self):
         return f"{self.inventoryId}--{self.productId}"
 
+    def get_absolute_url(self):
+        return reverse_lazy('list_inv')
+
 
 class Supplier(models.Model):
     SupplierId = models.AutoField(primary_key=True)
@@ -73,3 +80,6 @@ class Supplier(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+    
+    def get_absolute_url(self):
+        return reverse_lazy('link_sup_list')
