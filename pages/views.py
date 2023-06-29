@@ -1,9 +1,9 @@
 from django.http import HttpResponseForbidden, Http404
 from django.shortcuts import render
 from django.views import View
-from django.views.generic import TemplateView, ListView, DetailView, UpdateView
+from django.views.generic import TemplateView, ListView, DetailView, UpdateView, CreateView
 from carts.forms import Status_Update
-from products.models import Supplier, InventoryProduct
+from products.models import Supplier, InventoryProduct, Inventory
 from carts.models import OrderItem, Order
 from django.contrib import messages
 
@@ -85,3 +85,23 @@ class ViewInventory(ListView):
         if not request.user.is_superuser:
             return HttpResponseForbidden("<b><h2>دسترسی ممنوع است</h2></b><h4> .فقط مدیر سایت میتواند وارد شود</h4>")
         return super().dispatch(request, *args, **kwargs)
+
+
+class add_InventoryProduct(CreateView):
+    model = InventoryProduct
+    template_name = 'admin/add_InventoryPro.html'
+    fields = '__all__'
+    context_object_name = 'add_inv_pro'
+
+
+class List_city_Inventory(ListView):
+    model = Inventory
+    template_name = 'admin/list_inventory.html'
+    context_object_name = 'list_inv_city'
+
+
+class add_cityInventory(CreateView):  # TODO fix error ImproperlyConfigured
+    model = Inventory
+    template_name = 'admin/add_city_inventory.html'
+    fields = '__all__'
+    context_object_name = 'add_city_inv'
