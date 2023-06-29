@@ -45,7 +45,7 @@ python manage.py runserver
                     </tbody>
 </table>
 <br>
-
+یا میتوانید از طریق سایت با اکانت ادمین وارد شوید.
 ----
 ## front-end
 * html
