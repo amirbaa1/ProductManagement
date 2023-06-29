@@ -20,6 +20,5 @@ urlpatterns = [
     path('panel/supplier/', List_Supplier.as_view(), name='link_sup_list'),
     path('panel/supplier/delete/<int:id>/', Delete_Supplier.as_view(), name='delete_sup'),
     path('panel/supplier/add/', add_Supplier.as_view(), name='add_sup'),
-
-    
+ 
 ]
