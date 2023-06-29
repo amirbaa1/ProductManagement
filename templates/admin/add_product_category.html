@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% block content %}
 <br>
 <button type="submit" class="btn btn-danger btn-sm" style="float:left"><a class="nav-link active"
@@ -18,13 +19,10 @@
             <form action="" method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <!--                {{ create_prov }}-->
-                <button type="submit" class="btn btn-primary">اضافه کردن در فروشگاه</button>
-                <!--                <input type="submit" value="Save">-->
+                <button type="submit" class="btn btn-primary">اضافه کردن دسته بندی جدید</button>
             </form>
         </div>
     </div>
 </div>
-
 
 {% endblock %}

@@ -35,22 +35,29 @@
 <div class="card">
     <div class="card-body">
         <h1>تامین کنندگان</h1>
-        <table class="table">
+        <table class="table table-hover">
             <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">تامین کنندگان</th>
                 <th scope="col">شماره تلفن تامین کننده</th>
+                <th scope="col">اپدیت</th>
                 <th scope="col">حذف</th>
             </tr>
             <tbody class="table-group-divider">
-                {% for sl in sup_list %}
-                <tr>
-                    <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{ sl.name }}</td>
-                    <td>{{ sl.contactInfo }}</td>
-                    <td>  
-                        <form method="post" action="{% url 'delete_sup' sl.pk %}">
+            {% for sl in sup_list %}
+            <tr>
+                <td scope="row">{{ forloop.counter }}</td>
+                <td><a href="{% url 'link_upd_supp' sl.pk %}">{{ sl.name }}</a></td>
+                <td>{{ sl.contactInfo }}</td>
+                <td>
+                    <button type="button" class="btn btn-primary btn">
+                        <a class="nav-link active" href="{% url 'link_upd_supp' sl.pk %}">اپدیت
+                        </a>
+                    </button>
+                </td>
+                <td>
+                    <form method="post" action="{% url 'delete_sup' sl.pk %}">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger btn-sm">حذف
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
@@ -64,9 +71,11 @@
                                 <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
                             </svg>
                         </button>
-                    </form></td>
-                </tr>
-                {% endfor %}
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+
             </tbody>
         </table>
     </div>

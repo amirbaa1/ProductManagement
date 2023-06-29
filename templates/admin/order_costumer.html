@@ -26,7 +26,7 @@
         <path d="M5 12l6 -6"></path>
     </svg>
 </a></button>
-<div class="order-details r-text">
+<div class="order-details r-text" style="font-family: Vazir">
 
     <h1>جزئیات سفارش</h1>
     <div class="card">
@@ -72,7 +72,7 @@
                 {% for item in order.order_items.all %}
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
-                    <td><a href="{% url 'pro_v' pk=item.product_variation.pk %}">{{ item.product_variation }}</a>
+                    <td><a href="{% url 'pro_v' pk=item.product_variation.pk %}">{{ item.product_variation }}-بسته 500 گرم</a>
                     </td>
                     <td>{{ item.quantity }}</td>
                     <td>{{ item.city }}</td>

@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
+
 {% block content %}
 <br>
 <button type="submit" class="btn btn-danger btn-sm" style="float:left"><a class="nav-link active"
-                                                                          href="{% url 'link_list_pro_v' %}">
+                                                                          href="{% url 'link_sup_list' %}">
     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left" width="24" height="24"
          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
          stroke-linejoin="round">
@@ -12,19 +13,19 @@
         <path d="M5 12l6 -6"></path>
     </svg>
 </a></button>
+
+<br>
+<br>
 <div style="display: flex; justify-content: center;">
     <div class="card text-center" style="width:450px">
         <div class="card-body">
             <form action="" method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <!--                {{ create_prov }}-->
-                <button type="submit" class="btn btn-primary">اضافه کردن در فروشگاه</button>
-                <!--                <input type="submit" value="Save">-->
+                <button type="submit" class="btn btn-primary">اپدیت</button>
             </form>
         </div>
     </div>
 </div>
-
 
 {% endblock %}

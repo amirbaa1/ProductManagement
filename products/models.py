@@ -30,7 +30,9 @@ class ProductCategory(models.Model):
     def __str__(self):
         return f"{self.name}"
 
-
+    def get_absolute_url(self):
+        # return reverse('pro_v', args=[str(self.pk)])
+        return reverse_lazy('link_list_pro_v')
 class ProductVariation(models.Model):
     variationId = models.AutoField(primary_key=True)
     productId = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, verbose_name='دسته محصول')
@@ -38,12 +40,13 @@ class ProductVariation(models.Model):
     Supplier = models.ManyToManyField('Supplier')
     price = models.IntegerField(verbose_name='قیمت (تومان)', help_text='یک بسته 500 گرمی')
     quantity = models.IntegerField(verbose_name='تعداد کالا')
-    cityId = models.ForeignKey(City, on_delete=models.CASCADE, verbose_name='انبار')
+    cityId = models.ForeignKey(City, on_delete=models.CASCADE, verbose_name='انبار', null=True)
     text = models.TextField(max_length=1000, null=True, blank=True, help_text='اجبار پر کردن توضیحات نیست',
                             verbose_name='توضیح محصول')
 
     def get_absolute_url(self):
-        return reverse('pro_v', args=[str(self.pk)])
+        # return reverse('pro_v', args=[str(self.pk)])
+        return reverse_lazy('link_list_pro_v')
 
     def __str__(self):
         return f"{self.name} {self.Supplier.first()}"
@@ -80,6 +83,6 @@ class Supplier(models.Model):
 
     def __str__(self):
         return f"{self.name}"
-    
+
     def get_absolute_url(self):
         return reverse_lazy('link_sup_list')

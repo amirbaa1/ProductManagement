@@ -20,5 +20,10 @@ urlpatterns = [
     path('panel/supplier/', List_Supplier.as_view(), name='link_sup_list'),
     path('panel/supplier/delete/<int:id>/', Delete_Supplier.as_view(), name='delete_sup'),
     path('panel/supplier/add/', add_Supplier.as_view(), name='add_sup'),
- 
+    path('panel/supplier/update/<int:id>', Update_Supplier.as_view(), name='link_upd_supp'),
+    path('panel/product-variations/', Product_vari_List.as_view(), name='link_list_pro_v'),
+    path('panel/product-variations/update/<int:id>', Update_Pro_v.as_view(), name='link_up_pro_v'),
+    path('panel/product-variations/delete/<int:id>/', Delete_ProductVariation.as_view(), name='delete-pro_v'),
+    path('panel/add-category-product/', add_category_product.as_view(), name='add_cat_pro'),
+
 ]

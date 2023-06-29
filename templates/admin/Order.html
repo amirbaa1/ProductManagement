@@ -15,10 +15,10 @@
 
 <br>
 <br>
-<div class="card">
+<div style="font-family: Vazir">
     <div class="card-body">
         <h1>سفارش های مشتری</h1>
-        <table class="table">
+        <table class="table table-hover">
             <thead>
             <tr>
                 <th scope="col">#</th>
@@ -26,17 +26,22 @@
                 <th scope="col">وضعیت</th>
                 <th scope="col">شهر</th>
                 <th scope="col">تاریخ خرید</th>
+                <th scope="col">جزئیات</th>
             </tr>
             </thead>
             <tbody class="table-group-divider">
             {% for or in admin_order %}
-            <tr>
+            <tr class="table-row">
                 <th scope="row">{{ forloop.counter }}</th>
                 <td><a href="{% url 'Det_order' or.pk %}">{{ or.customer }}</a></td>
                 <td>{{ or.status }}</td>
                 <td>{{ or.city }}</td>
                 <td>{{ or.date_order }}</td>
-
+                <td>
+                    <button type="button" class="btn btn-primary btn">
+                        <a class="nav-link active" href="{% url 'Det_order' or.pk %}">جزئیات</a>
+                    </button>
+                </td>
             </tr>
             {% endfor %}
             </tbody>

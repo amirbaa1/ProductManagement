@@ -22,3 +22,14 @@
 .custom-float-left {
      text-align: left;
 }
+
+
+.list-group-item:hover {
+    background-color: #f5f5f5; /* تغییر رنگ پس زمینه در حالت hover */
+    /* سایر تنظیمات دلخواه خود را اضافه کنید */
+}
+
+.list-group-item:hover a {
+    color: black; /* تغییر رنگ متن در حالت hover */
+    /* سایر تنظیمات دلخواه خود را اضافه کنید */
+}
