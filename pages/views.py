@@ -4,8 +4,9 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, UpdateView, CreateView, DeleteView
 from carts.forms import Status_Update
-from products.forms import Form_add_cityInventory, Form_add_Inventory_product, Form_Update_Supplier, Form_Update_ProV
-from products.models import Supplier, InventoryProduct, Inventory, ProductVariation, ProductCategory
+from products.forms import Form_add_cityInventory, Form_add_Inventory_product, Form_Update_Supplier, Form_Update_ProV, \
+    Form_add_Supplier, Form_add_category_product
+from products.models import Supplier, InventoryProduct, Inventory, ProductVariation, ProductCategory, City
 from carts.models import OrderItem, Order
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
@@ -30,11 +31,37 @@ class Panel_Admin(TemplateView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class Panel_AdminOrder(ListView):
-    model = Order
-    template_name = 'admin/Order.html'
-    context_object_name = 'admin_order'
-    ordering = ['-id']
+# class Panel_AdminOrder(ListView):
+#     model = Order
+#     template_name = 'admin/Order.html'
+#     context_object_name = 'admin_order'
+#     ordering = ['-id']
+#
+#     def dispatch(self, request, *args, **kwargs):
+#         if not request.user.is_superuser:
+#             return HttpResponseForbidden("<b><h2>دسترسی ممنوع است</h2></b><h4> .فقط مدیر سایت میتواند وارد شود</h4>")
+#         return super().dispatch(request, *args, **kwargs)
+
+
+class Panel_AdminOrder(View):
+    def get(self, request):
+        order_list = Order.objects.order_by('-date_order')
+        order_cat_status = [
+            ('در حال بررسی سفارش', 'در حال بررسی سفارش'),
+            ('در حال ارسال', 'در حال ارسال'),
+            ('تحویل شده', 'تحویل شده'),
+        ]
+        category_status = request.GET.get('cat_status')
+
+        if category_status:
+            order_list = order_list.filter(status=category_status)
+
+        context = {
+            'category_status': order_cat_status,
+            'admin_order': order_list
+        }
+
+        return render(request, 'admin/Order.html', context=context)
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_superuser:
@@ -44,7 +71,7 @@ class Panel_AdminOrder(ListView):
 
 # class Detail_Order(DetailView):
 #     model = Order
-#     template_name = 'admin/order_costumer.html'
+#     template_name = 'admin/order_customer.html'
 #     context_object_name = 'order'
 #
 #
@@ -61,8 +88,11 @@ class View_Order(View):
         order = Order.objects.get(pk=order_id)
         order_items = OrderItem.objects.filter(order=order)
 
-        return render(request, 'admin/order_costumer.html', {'order': order, 'order_items': order_items,
-                                                             })
+        context = {'order': order,
+                   'order_items': order_items,
+                   }
+
+        return render(request, 'admin/order_customer.html', context=context)
 
     def post(self, request, order_id, *args, **kwargs):
         order = Order.objects.get(pk=order_id)
@@ -71,7 +101,7 @@ class View_Order(View):
             status_form.save()
             messages.success(request, 'سفارش با موفقیت تغییر کرد.')
 
-        return render(request, 'admin/order_costumer.html', {'order': order, 'status_form': status_form})
+        return render(request, 'admin/order_customer.html', {'order': order, 'status_form': status_form})
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_superuser:
@@ -187,8 +217,8 @@ class Delete_Supplier(SuccessMessageMixin, DeleteView):
 class add_Supplier(SuccessMessageMixin, CreateView):
     model = Supplier
     template_name = 'admin/add_supplier.html'
-    fields = '__all__' # TODO create form
-    # form_class = Form_add_cityInventory
+    # fields = '__all__'
+    form_class = Form_add_Supplier
     context_object_name = 'add_spp'
 
     def get_success_message(self, cleaned_data):
@@ -216,10 +246,41 @@ class Update_Supplier(SuccessMessageMixin, UpdateView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class Product_vari_List(ListView):
-    model = ProductVariation
-    template_name = 'admin/product_variation.html'
-    context_object_name = 'pro_list'
+# class Product_vari_List(ListView):
+#     model = ProductVariation
+#     template_name = 'admin/product_variation.html'
+#     context_object_name = 'pro_lit'
+#
+#     def dispatch(self, request, *args, **kwargs):
+#         if not request.user.is_superuser:
+#             return HttpResponseForbidden("<b><h2>دسترسی ممنوع است</h2></b><h4> .فقط مدیر سایت میتواند وارد شود</h4>")
+#         return super().dispatch(request, *args, **kwargs)
+
+
+class Product_view_list(View):
+    def get(self, request):
+        product_v_list = ProductVariation.objects.all()
+        product_cat_admin = ProductCategory.objects.all()
+        city = City.objects.all()
+
+        category = request.GET.get('categories_admin')
+        category_city = request.GET.get('categories_city_admin')
+
+        if category:
+            product_v_list = product_v_list.filter(productId=category)
+
+        if category_city:
+            product_v_list = product_v_list.filter(cityId=category_city)
+
+        if category_city and category:
+            product_v_list = product_v_list.filter(cityId=category_city, productId=category)
+
+        context = {
+            'pro_list': product_v_list,
+            'cat1': product_cat_admin,
+            'cat_city': city,
+        }
+        return render(request, 'admin/product_variation.html', context=context)
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_superuser:
@@ -247,22 +308,38 @@ class Delete_ProductVariation(SuccessMessageMixin, DeleteView):
     def get_success_message(self, cleaned_data):
         return f"محصول {self.object.name} حذف شد."
 
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_superuser:
-            return HttpResponseForbidden("<b><h2>دسترسی ممنوع است</h2></b><h4> .فقط مدیر سایت میتواند وارد شود</h4>")
-        return super().dispatch(request, *args, **kwargs)
-
 
 class add_category_product(SuccessMessageMixin, CreateView):
     model = ProductCategory
     template_name = 'admin/add_product_category.html'
-    fields = '__all__' # TODO create form
+    # fields = '__all__'
+    form_class = Form_add_category_product
     context_object_name = 'add_spp'
 
     def get_success_message(self, cleaned_data):
-        return f'نام تامین کننده {self.object.name} اضافه شد.'
+        return f'نام دسته جدید {self.object.name} اضافه شد.'
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_superuser:
             return HttpResponseForbidden("<b><h2>دسترسی ممنوع است</h2></b><h4> .فقط مدیر سایت میتواند وارد شود</h4>")
         return super().dispatch(request, *args, **kwargs)
+
+
+class List_cat_product(ListView):
+    model = ProductCategory
+    template_name = 'admin/list_product_cat.html'
+    context_object_name = 'list_cat_pro'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_superuser:
+            return HttpResponseForbidden("<b><h2>دسترسی ممنوع است</h2></b><h4> .فقط مدیر سایت میتواند وارد شود</h4>")
+        return super().dispatch(request, *args, **kwargs)
+
+
+class Delete_cat_pro(DeleteView):
+    model = ProductCategory
+    success_url = reverse_lazy('link_list_pro_cat')
+    pk_url_kwarg = 'id'
+
+    def get_success_message(self, cleaned_data):
+        return f"دسته بندی {self.object.name} حذف شد."

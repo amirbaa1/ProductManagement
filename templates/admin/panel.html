@@ -6,10 +6,21 @@
 <br>
 <div class="d-flex justify-content-between align-items-center">
     {% if user.is_superuser %}
-    <div class="col-md-6">
+    <div class="col-md-6 style_panel_left">
         <div class="card">
             <div class="card-body text-center">
-                <h5> محصولات فروشگاه</h5>
+                <h5> محصولات فروشگاه
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-building-store"
+                         width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M3 21l18 0"></path>
+                        <path d="M3 7v1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1h-18l2 -4h14l2 4"></path>
+                        <path d="M5 21l0 -10.15"></path>
+                        <path d="M19 21l0 -10.15"></path>
+                        <path d="M9 21v-4a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v4"></path>
+                    </svg>
+                </h5>
                 <br>
                 <button type="button" class="btn btn-primary btn">
                     <a class="nav-link active" href="{% url 'link_list_pro_v' %}">جزئیات محصولات</a>
@@ -19,7 +30,17 @@
         <br>
         <div class="card">
             <div class="card-body text-center">
-                <h5>سفارش مشتری</h5>
+                <h5>سفارش مشتری
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-dollar" width="24"
+                         height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                        <path d="M6 21v-2a4 4 0 0 1 4 -4h3"></path>
+                        <path d="M21 15h-2.5a1.5 1.5 0 0 0 0 3h1a1.5 1.5 0 0 1 0 3h-2.5"></path>
+                        <path d="M19 21v1m0 -8v1"></path>
+                    </svg>
+                </h5>
                 <br>
                 <button type="button" class="btn btn-primary btn">
                     <a class="nav-link active" href="{% url 'list_order_customer' %}"> لیست سفارش‌ها</a>
@@ -27,10 +48,19 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6 style_panel_right">
         <div class="card">
             <div class="card-body text-center">
-                <h5>تامین کننده</h5>
+                <h5>تامین کننده
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-award" width="24"
+                         height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M12 9m-6 0a6 6 0 1 0 12 0a6 6 0 1 0 -12 0"></path>
+                        <path d="M12 15l3.4 5.89l1.598 -3.233l3.598 .232l-3.4 -5.889"></path>
+                        <path d="M6.802 12l-3.4 5.89l3.598 -.233l1.598 3.232l3.4 -5.889"></path>
+                    </svg>
+                </h5>
                 <br>
                 <button type="button" class="btn btn-primary btn">
                     <a class="nav-link active" href="{% url 'link_sup_list' %}">جزئیات تامین کننده</a>
@@ -40,7 +70,16 @@
         <br>
         <div class="card">
             <div class="card-body text-center">
-                <h5>انبار</h5>
+                <h5>انبار
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-building-warehouse"
+                         width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M3 21v-13l9 -4l9 4v13"></path>
+                        <path d="M13 13h4v8h-10v-6h6"></path>
+                        <path d="M13 21v-9a1 1 0 0 0 -1 -1h-2a1 1 0 0 0 -1 1v3"></path>
+                    </svg>
+                </h5>
                 <br>
                 <button type="button" class="btn btn-primary btn">
                     <a class="nav-link active" href="{% url 'list_inv' %}">جزئیات انبار</a>

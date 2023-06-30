@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% if messages %}
+<div class="messages">
+    {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {% if message.tags %}
+        {% endif %}
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+
+</div>
+{% endif %}
+<br>
+<button type="submit" class="btn btn-danger btn-sm" style="float:left"><a class="nav-link active"
+                                                                          href="{% url 'list_order_customer' %}">
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left" width="24" height="24"
+         viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+         stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M5 12l14 0"></path>
+        <path d="M5 12l6 6"></path>
+        <path d="M5 12l6 -6"></path>
+    </svg>
+</a></button>
+<div class="order-details r-text" style="font-family: Vazir">
+
+    <h1>جزئیات سفارش</h1>
+    <div class="card">
+        <div class="card-body">
+            <h2>اطلاعات کاربر</h2>
+            <p>نام: {{ order.customer.first_name }} {{ order.customer.last_name }}</p>
+            <p>آدرس: {{ order.customer.city }}</p>
+
+        </div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="card-body">
+            <h2>جزئیات سفارش</h2>
+            <p>شماره سفارش: {{ order.id }}</p>
+            <p>تاریخ سفارش: {{ order.date_order }}</p>
+            <p>وضعیت سفارش: {{ order.status }}</p>
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ status_form.status }}
+                </div>
+                <button type="submit" class="btn btn-primary">تغییر وضعیت</button>
+            </form>
+
+        </div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="card-body">
+            <h2>لیست محصولات</h2>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">کالا</th>
+                    <th scope="col">تعداد</th>
+                    <th scope="col">موجود در انبار</th>
+                    <th scope="col">قیمت</th>
+                </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                {% for item in order.order_items.all %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>
+                        {% if item.product_variation.pk is None %}
+                        متاسفانه کالا حذف شده است، با مدیر فروش تماس بگیرید.
+                        {% else %}
+                        <a href="{% url 'pro_v' pk=item.product_variation.pk %}">{{ item.product_variation }}-بسته 500
+                            گرم</a>
+                        {% endif %}
+                    </td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.city }}</td>
+                    <td>{{ item.unit_price }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <h2>مجموع سفارش</h2>
+        <p>قیمت کل سفارش: {{ order.total_price }}</p>
+    </div>
+</div>
+<br>
+
+
+{% endblock %}

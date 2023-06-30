@@ -14,7 +14,6 @@
     }
 
 .card.touchable:hover {
-  /* استایل مورد نظر برای کادر شناور هنگام لمس */
   transform: translateY(-5px);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
@@ -25,11 +24,20 @@
 
 
 .list-group-item:hover {
-    background-color: #f5f5f5; /* تغییر رنگ پس زمینه در حالت hover */
-    /* سایر تنظیمات دلخواه خود را اضافه کنید */
+    background-color: #f5f5f5;
+
 }
 
 .list-group-item:hover a {
-    color: black; /* تغییر رنگ متن در حالت hover */
-    /* سایر تنظیمات دلخواه خود را اضافه کنید */
+    color: black;
+}
+
+.style_panel_left{
+    margin-left: 8px;
+}
+
+.style_panel_right{
+    margin-right: 8px;
+
+
 }

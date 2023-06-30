@@ -23,7 +23,7 @@ class ProductListViews(View):
         default_product_v = ProductVariation.objects.all()
 
         category = request.GET.get('categories')
-        category_city = request.GET.get('categories_city')
+        # category_city = request.GET.get('categories_city')
 
         # if category:
         #     product_v = ProductVariation.objects.filter(productId=category)
@@ -55,7 +55,7 @@ class ProductVariation_Detail(DetailView):
     context_object_name = 'det_pro_v'
 
 
-class CreateProduct(SuccessMessageMixin,CreateView):
+class CreateProduct(SuccessMessageMixin, CreateView):
     model = ProductVariation
     template_name = 'admin/add_product.html'
     # fields = '__all__'

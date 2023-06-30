@@ -1,19 +1,26 @@
 {% extends 'base.html' %}
-
 {% block content %}
 <br>
+
 {% if messages %}
 <div class="messages">
     {% for message in messages %}
-    <div class="alert alert-{{ message.tags }}">
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {% if message.tags %}
+        {% endif %}
         {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     {% endfor %}
+
 </div>
 {% endif %}
+<button type="button" class="btn btn-primary btn">
+    <a class="nav-link active" href="{% url 'add_pro_cat' %}">اضافه کردن دسته بندی جدید +</a>
+</button>
 
 <button type="submit" class="btn btn-danger btn-sm" style="float:left"><a class="nav-link active"
-                                                                          href="{% url 'list_inv' %}">
+                                                                          href="{% url 'link_list_pro_v' %}">
     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-left" width="24" height="24"
          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
          stroke-linejoin="round">
@@ -23,30 +30,26 @@
         <path d="M5 12l6 -6"></path>
     </svg>
 </a></button>
-<button type="button" class="btn btn-primary btn">
-    <a class="nav-link active" href="{% url 'add_city_inv' %}"> اضافه کردن انبار +</a>
-</button>
 <br>
 <br>
+
 <div class="card">
     <div class="card-body">
-        <h1>انبار</h1>
+        <h1>دسته بندی</h1>
         <table class="table table-hover">
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">انبار</th>
+                <th scope="col">دسته بندی</th>
                 <th scope="col">حذف</th>
-
             </tr>
-            </thead>
             <tbody class="table-group-divider">
-            {% for i in list_invcity %}
+            {% for cat in list_cat_pro %}
             <tr>
-                <th scope="row">{{ forloop.counter }}</th>
-                <td>{{i.cityId}}</td>
+                <td scope="row">{{ forloop.counter }}</td>
+                <td>{{ cat.name }}</td>
                 <td>
-                    <form method="post" action="{% url 'delete-inv_city' i.pk %}">
+                    <form method="post" action="{% url 'delete-pro_cat' cat.pk %}">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger btn-sm">حذف
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
@@ -62,7 +65,6 @@
                         </button>
                     </form>
                 </td>
-
             </tr>
             {% endfor %}
             </tbody>

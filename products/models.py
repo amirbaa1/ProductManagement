@@ -32,7 +32,7 @@ class ProductCategory(models.Model):
 
     def get_absolute_url(self):
         # return reverse('pro_v', args=[str(self.pk)])
-        return reverse_lazy('link_list_pro_v')
+        return reverse_lazy('link_list_pro_cat')
 class ProductVariation(models.Model):
     variationId = models.AutoField(primary_key=True)
     productId = models.ForeignKey(ProductCategory, on_delete=models.CASCADE, verbose_name='دسته محصول')

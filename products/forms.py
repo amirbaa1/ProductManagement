@@ -66,4 +66,23 @@ class Form_Update_ProV(forms.ModelForm):
 
     class Meta:
         model = ProductVariation
-        fields = [ 'name', 'Supplier', 'price', 'quantity', 'cityId', 'text']
+        fields = ['name', 'Supplier', 'price', 'quantity', 'cityId', 'text']
+
+
+class Form_add_Supplier(forms.ModelForm):
+    name = forms.CharField(label='نام تامین کننده', required=False,
+                           widget=forms.TextInput(attrs={'class': 'form-control'}))
+    contactInfo = forms.IntegerField(label='شماره تلفن', widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = Supplier
+        fields = ['name', 'contactInfo']
+
+
+class Form_add_category_product(forms.ModelForm):
+    name = forms.CharField(label='نام تامین کننده', required=False,
+                           widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = ProductCategory
+        fields = ['name']

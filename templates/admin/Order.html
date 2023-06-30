@@ -15,39 +15,65 @@
 
 <br>
 <br>
-<div style="font-family: Vazir">
-    <div class="card-body">
-        <h1>سفارش های مشتری</h1>
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">مشتری</th>
-                <th scope="col">وضعیت</th>
-                <th scope="col">شهر</th>
-                <th scope="col">تاریخ خرید</th>
-                <th scope="col">جزئیات</th>
-            </tr>
-            </thead>
-            <tbody class="table-group-divider">
-            {% for or in admin_order %}
-            <tr class="table-row">
-                <th scope="row">{{ forloop.counter }}</th>
-                <td><a href="{% url 'Det_order' or.pk %}">{{ or.customer }}</a></td>
-                <td>{{ or.status }}</td>
-                <td>{{ or.city }}</td>
-                <td>{{ or.date_order }}</td>
-                <td>
-                    <button type="button" class="btn btn-primary btn">
-                        <a class="nav-link active" href="{% url 'Det_order' or.pk %}">جزئیات</a>
-                    </button>
-                </td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row">
+                <div class="card">
+
+                    <div class="card-body">
+                        <h1>سفارش های مشتری</h1>
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">مشتری</th>
+                                <th scope="col">وضعیت</th>
+                                <th scope="col">شهر</th>
+                                <th scope="col">تاریخ خرید</th>
+                                <th scope="col">جزئیات</th>
+                            </tr>
+                            </thead>
+                            <tbody class="table-group-divider">
+                            {% for or in admin_order %}
+                            <tr class="table-row">
+                                <th scope="row">{{ forloop.counter }}</th>
+                                <td><a href="{% url 'Det_order' or.pk %}">{{ or.customer }}</a></td>
+                                <td>{{ or.status }}</td>
+                                <td>{{ or.customer.city }}</td>
+                                <td>{{ or.date_order }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn">
+                                        <a class="nav-link active" href="{% url 'Det_order' or.pk %}">جزئیات</a>
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div style="width: 18rem;">
+                <div class="list-group text-center">
+                    <a href="{% url 'list_order_customer' %}"
+                       class="list-group-item list-group-item-action list-group-item-light"
+                       style="text-decoration: none; color: black;">
+                        تمام سفارش
+                    </a>
+                    {% for cat in category_status %}
+                    <a href="/panel/order_customer/?cat_status={{ cat.0 }}"
+                       class="list-group-item list-group-item-action list-group-item-light"
+                       style="text-decoration: none; color: black;">
+                        {{ cat.1 }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
 
 {% endblock %}

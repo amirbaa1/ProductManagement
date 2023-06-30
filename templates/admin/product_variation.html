@@ -16,10 +16,16 @@
 </div>
 {% endif %}
 <button type="button" class="btn btn-primary btn">
-    <a class="nav-link active" href="{% url 'add_product' %}"> اضافه کردن محصول تنوع +</a>
+    <a class="nav-link active" href="{% url 'add_product' %}"> اضافه کردن محصول تنوع در فروشگاه سایت +</a>
 </button>
 <button type="button" class="btn btn-primary btn">
-    <a class="nav-link active" href="{% url 'add_cat_pro' %}">اضافه کردن دسته بندی جدید +</a>
+    <a class="nav-link active" href="{% url 'link_list_pro_cat' %}">اضافه کردن دسته بندی جدید <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-category" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <path d="M4 4h6v6h-6z"></path>
+   <path d="M14 4h6v6h-6z"></path>
+   <path d="M4 14h6v6h-6z"></path>
+   <path d="M17 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+</svg></a>
 </button>
 
 <button type="submit" class="btn btn-danger btn-sm" style="float:left"><a class="nav-link active"
@@ -35,55 +41,95 @@
 </a></button>
 <br>
 <br>
-
-<div class="card">
-    <div class="card-body">
-        <h1>محصولات</h1>
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">محصول</th>
-                <th scope="col">دسته بندی</th>
-                <th scope="col">تامین کننده</th>
-                <th scope="col">قیمت(براساس نیم کیلوگرم)</th>
-                <th scope="col">تعداد</th>
-                <th scope="col">انبار</th>
-                <th scope="col">حذف</th>
-            </tr>
-            <tbody class="table-group-divider">
-            {% for p in pro_list %}
-            <tr>
-                <td scope="row">{{ forloop.counter }}</td>
-                <td><a href="{% url 'link_up_pro_v' p.pk %}">{{ p.name }}</a></td>
-                <td>{{ p.productId }}</td>
-                <td>{{ p.Supplier.first }}</td>
-                <td>{{ p.price }}</td>
-                <td>{{ p.quantity }}</td>
-                <td>{{ p.cityId }}</td>
-                <td>
-                    <form method="post" action="{% url 'delete-pro_v' p.pk %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger btn-sm">حذف
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
-                                 width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                                 fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M4 7l16 0"></path>
-                                <path d="M10 11l0 6"></path>
-                                <path d="M14 11l0 6"></path>
-                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
-                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
-                            </svg>
-                        </button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <div class="row">
+                <div class="card">
+                    <div class="card-body">
+                        <h1>محصولات</h1>
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">محصول</th>
+                                <th scope="col">دسته بندی</th>
+                                <th scope="col">تامین کننده</th>
+                                <th scope="col">قیمت(براساس نیم کیلوگرم)</th>
+                                <th scope="col">تعداد</th>
+                                <th scope="col">انبار</th>
+                                <th scope="col">حذف</th>
+                            </tr>
+                            <tbody class="table-group-divider">
+                            {% for p in pro_list %}
+                            <tr>
+                                <td scope="row">{{ forloop.counter }}</td>
+                                <td><a href="{% url 'link_up_pro_v' p.pk %}">{{ p.name }}</a></td>
+                                <td>{{ p.productId }}</td>
+                                <td>{{ p.Supplier.first }}</td>
+                                <td>{{ p.price }}</td>
+                                <td>{{ p.quantity }}</td>
+                                <td>{{ p.cityId }}</td>
+                                <td>
+                                    <form method="post" action="{% url 'delete-pro_v' p.pk %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger btn-sm">حذف
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                 class="icon icon-tabler icon-tabler-trash"
+                                                 width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                                                 stroke="currentColor"
+                                                 fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M4 7l16 0"></path>
+                                                <path d="M10 11l0 6"></path>
+                                                <path d="M14 11l0 6"></path>
+                                                <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path>
+                                                <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path>
+                                            </svg>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div style="width: 18rem;">
+                <div class="list-group text-center">
+                    <a href="{% url 'link_list_pro_v' %}"
+                       class="list-group-item list-group-item-action list-group-item-light"
+                       style="text-decoration: none; color: black;">
+                        تمام محصولات
+                    </a>
+                    {% for c1 in cat1 %}
+                    <a href="/panel/product-variations/?categories_admin={{ c1.pk }}"
+                       class="list-group-item list-group-item-action list-group-item-light"
+                       style="text-decoration: none; color: black;">
+                        {{ c1.name }}
+                    </a>
+                    {% endfor %}
+                </div>
+                <br>
+                <div class="list-group text-center">
+                    <a href="{% url 'link_list_pro_v' %}"
+                       class="list-group-item list-group-item-action list-group-item-light"
+                       style="text-decoration: none; color: black;">
+                        تمام شهر
+                    </a>
+                    {% for c_city in cat_city %}
+                    <a href="/panel/product-variations/?categories_city_admin={{ c_city.pk }}"
+                       class="list-group-item list-group-item-action list-group-item-light"
+                       style="text-decoration: none; color: black;">
+                        {{ c_city.name }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-
 {% endblock %}

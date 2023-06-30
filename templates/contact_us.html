@@ -1,7 +1,49 @@
 {% extends 'base.html' %}
 {% block content %}
-<title>{% block title %}Contact Us{% endblock title %}</title>
-<h1>Contact Us page</h1>
+<title>{% block title %}تماس با ما{% endblock title %}</title>
+
+
+<header class="container py-5">
+    <h1 class="text-center">تماس با ما</h1>
+</header>
+
+<section class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">نام</label>
+                            <input type="text" class="form-control" id="name" placeholder="نام خود را وارد کنید">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">ایمیل</label>
+                            <input type="email" class="form-control" id="email" placeholder="ایمیل خود را وارد کنید">
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">پیام</label>
+                            <textarea class="form-control" id="message" rows="5"
+                                      placeholder="پیام خود را وارد کنید"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">ارسال پیام</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">اطلاعات تماس</h5>
+                    <p class="card-text">آدرس دفتر: تهران، نیاوران، پلاک</p>
+                    <p class="card-text">تلفن: 123456789</p>
+                    <p class="card-text">ایمیل: </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 
 {% endblock %}
