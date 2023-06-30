@@ -5,7 +5,7 @@
 <h1>مدیریت فروشگاه</h1>
 <br>
 <div class="d-flex justify-content-between align-items-center">
-    {% if user.is_superuser %}
+    {% if user.is_superuser or user.username == 'admin2' or user.username == 'admin3' %}
     <div class="col-md-6 style_panel_left">
         <div class="card">
             <div class="card-body text-center">
@@ -22,9 +22,15 @@
                     </svg>
                 </h5>
                 <br>
+                {% if user.username == 'admin2' or user.username == 'admin3' %}
+                <button type="button" class="btn btn-outline-primary" disabled>
+                    <a class="nav-link active" href="{% url 'link_list_pro_v' %}">جزئیات محصولات</a>
+                </button>
+                {% else %}
                 <button type="button" class="btn btn-primary btn">
                     <a class="nav-link active" href="{% url 'link_list_pro_v' %}">جزئیات محصولات</a>
                 </button>
+                {% endif %}
             </div>
         </div>
         <br>
@@ -81,9 +87,15 @@
                     </svg>
                 </h5>
                 <br>
+                {% if user.username == 'admin2' or user.username == 'admin3' %}
+                <button type="button" class="btn btn-outline-primary" disabled>
+                    <a class="nav-link active" href="{% url 'list_inv' %}">جزئیات انبار</a>
+                </button>
+                {% else %}
                 <button type="button" class="btn btn-primary btn">
                     <a class="nav-link active" href="{% url 'list_inv' %}">جزئیات انبار</a>
                 </button>
+                {% endif %}
             </div>
         </div>
     </div>

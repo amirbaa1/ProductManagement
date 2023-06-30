@@ -1,7 +1,9 @@
+from django.contrib.auth.decorators import user_passes_test, login_required, permission_required
 from django.http import HttpResponseForbidden, Http404
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, ListView, DetailView, UpdateView, CreateView, DeleteView
 from carts.forms import Status_Update
 from products.forms import Form_add_cityInventory, Form_add_Inventory_product, Form_Update_Supplier, Form_Update_ProV, \
@@ -22,13 +24,19 @@ class ContactUsPage(TemplateView):
     template_name = 'contact_us.html'
 
 
+def staff_required(login_url):
+    pass
+
+
+# @permission_required('library.add_book', raise_exception=True)
 class Panel_Admin(TemplateView):
     template_name = 'admin/panel.html'
 
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_superuser:
+        if request.user.username == 'admin2' or 'admin3':
+            return super().dispatch(request, *args, **kwargs)
+        elif not request.user.is_superuser:
             return HttpResponseForbidden("<b><h2>دسترسی ممنوع است</h2></b><h4> .فقط مدیر سایت میتواند وارد شود</h4>")
-        return super().dispatch(request, *args, **kwargs)
 
 
 # class Panel_AdminOrder(ListView):
@@ -44,6 +52,7 @@ class Panel_Admin(TemplateView):
 
 
 class Panel_AdminOrder(View):
+
     def get(self, request):
         order_list = Order.objects.order_by('-date_order')
         order_cat_status = [
@@ -64,9 +73,10 @@ class Panel_AdminOrder(View):
         return render(request, 'admin/Order.html', context=context)
 
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_superuser:
+        if request.user.username == 'admin2':
+            return super().dispatch(request, *args, **kwargs)
+        elif not request.user.is_superuser:
             return HttpResponseForbidden("<b><h2>دسترسی ممنوع است</h2></b><h4> .فقط مدیر سایت میتواند وارد شود</h4>")
-        return super().dispatch(request, *args, **kwargs)
 
 
 # class Detail_Order(DetailView):
@@ -84,6 +94,7 @@ class Panel_AdminOrder(View):
 
 
 class View_Order(View):
+    # @permission_required('order.change_order', raise_exception=True)
     def get(self, request, order_id):
         order = Order.objects.get(pk=order_id)
         order_items = OrderItem.objects.filter(order=order)
@@ -104,10 +115,10 @@ class View_Order(View):
         return render(request, 'admin/order_customer.html', {'order': order, 'status_form': status_form})
 
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_superuser:
+        if request.user.username == 'admin2':
+            return super().dispatch(request, *args, **kwargs)
+        elif not request.user.is_superuser:
             return HttpResponseForbidden("<b><h2>دسترسی ممنوع است</h2></b><h4> .فقط مدیر سایت میتواند وارد شود</h4>")
-        return super().dispatch(request, *args, **kwargs)
-
 
 class ViewInventory(ListView):
     model = InventoryProduct

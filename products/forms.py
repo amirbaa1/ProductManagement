@@ -40,7 +40,7 @@ class Form_add_Inventory_product(forms.ModelForm):
 
 
 class Form_Update_Supplier(forms.ModelForm):
-    name = forms.CharField(label='نام محصول', widget=forms.TextInput(attrs={'class': 'form-control', 'disabled': True}))
+    name = forms.CharField(label='نام محصول', widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     contactInfo = forms.IntegerField(label='شماره تلفن', widget=forms.TextInput(attrs={'class': 'form-control'}))
 
@@ -52,17 +52,14 @@ class Form_Update_Supplier(forms.ModelForm):
 class Form_Update_ProV(forms.ModelForm):
     # productId = forms.ModelChoiceField(label='نام محصول', queryset=ProductVariation.objects.all(), required=False,
     #                                    widget=forms.Select(attrs={'class': 'form-control', 'disabled': True}))
-    name = forms.CharField(label='نام محصول', required=False,
-                           widget=forms.TextInput(attrs={'class': 'form-control'}))
+    name = forms.CharField(label='نام محصول', widget=forms.TextInput(attrs={'class': 'form-control'}))
     Supplier = forms.ModelMultipleChoiceField(label='تامین کننده', queryset=Supplier.objects.all(),
-                                              widget=forms.SelectMultiple(
-                                                  attrs={'class': 'form-control'}))
-    price = forms.IntegerField(label='قیمت', widget=forms.TextInput(attrs={'class': 'form-control'}))
-    quantity = forms.IntegerField(label='تعداد', widget=forms.TextInput(attrs={'class': 'form-control'}))
+                                              widget=forms.SelectMultiple(attrs={'class': 'form-control'}))
+    price = forms.IntegerField(label='قیمت', widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    quantity = forms.IntegerField(label='تعداد', widget=forms.NumberInput(attrs={'class': 'form-control'}))
     cityId = forms.ModelChoiceField(label='شهر', queryset=City.objects.all(),
-                                    widget=forms.Select(attrs={'class': 'form-control'}),
-                                    required=False)
-    text = forms.CharField(label='توضیحات', required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
+                                    widget=forms.Select(attrs={'class': 'form-control'}), )
+    text = forms.CharField(label='توضیحات', required=False, widget=forms.Textarea(attrs={'class': 'form-control'}))
 
     class Meta:
         model = ProductVariation
