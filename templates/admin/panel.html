@@ -3,7 +3,16 @@
 <br>
 
 <h1>مدیریت فروشگاه</h1>
-<h3> نام ادمین : {{ user.username }}</h3>
+<h3> نام ادمین : {{ user.username }}
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-shield" width="32" height="32"
+         viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+         stroke-linejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M6 21v-2a4 4 0 0 1 4 -4h2"></path>
+        <path d="M22 16c0 4 -2.5 6 -3.5 6s-3.5 -2 -3.5 -6c1 0 2.5 -.5 3.5 -1.5c1 1 2.5 1.5 3.5 1.5z"></path>
+        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+    </svg>
+</h3>
 <br>
 <div class="d-flex justify-content-between align-items-center">
     {% if user.is_superuser or user.is_staff %}
@@ -25,7 +34,7 @@
                 <br>
                 {% if user.username == 'admin3' %}
                 <button type="button" class="btn btn-outline-primary" disabled>
-                    <a class="nav-link active" href="{% url 'link_list_pro_v' %}">اجازه ورود ندارید</a>
+                    <a class="nav-link active" href="{% url 'link_list_pro_v' %}">مجوز ندارید</a>
                 </button>
                 {% else %}
                 <button type="button" class="btn btn-primary btn">
