@@ -1,7 +1,9 @@
-from django.contrib.auth.decorators import user_passes_test, login_required, permission_required
+from django.contrib.auth.decorators import permission_required, login_required, user_passes_test
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpResponseForbidden, Http404
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, ListView, DetailView, UpdateView, CreateView, DeleteView
@@ -24,19 +26,13 @@ class ContactUsPage(TemplateView):
     template_name = 'contact_us.html'
 
 
-def staff_required(login_url):
-    pass
-
-
-# @permission_required('library.add_book', raise_exception=True)
 class Panel_Admin(TemplateView):
     template_name = 'admin/panel.html'
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.username == 'admin2' or 'admin3':
-            return super().dispatch(request, *args, **kwargs)
-        elif not request.user.is_superuser:
+        if not request.user.is_staff:
             return HttpResponseForbidden("<b><h2>دسترسی ممنوع است</h2></b><h4> .فقط مدیر سایت میتواند وارد شود</h4>")
+        return super().dispatch(request, *args, **kwargs)
 
 
 # class Panel_AdminOrder(ListView):
@@ -51,8 +47,12 @@ class Panel_Admin(TemplateView):
 #         return super().dispatch(request, *args, **kwargs)
 
 
-class Panel_AdminOrder(View):
+# def staff_required(login_url=None):
+#     return user_passes_test(lambda u: u.is_staff, login_url=login_url)
+#
 
+class Panel_AdminOrder(View):
+    @method_decorator(permission_required('carts.view_order'))
     def get(self, request):
         order_list = Order.objects.order_by('-date_order')
         order_cat_status = [
@@ -73,10 +73,9 @@ class Panel_AdminOrder(View):
         return render(request, 'admin/Order.html', context=context)
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.username == 'admin2':
-            return super().dispatch(request, *args, **kwargs)
-        elif not request.user.is_superuser:
+        if not request.user.is_staff:
             return HttpResponseForbidden("<b><h2>دسترسی ممنوع است</h2></b><h4> .فقط مدیر سایت میتواند وارد شود</h4>")
+        return super().dispatch(request, *args, **kwargs)
 
 
 # class Detail_Order(DetailView):
@@ -94,7 +93,7 @@ class Panel_AdminOrder(View):
 
 
 class View_Order(View):
-    # @permission_required('order.change_order', raise_exception=True)
+    @method_decorator(permission_required('carts.view_orderitem'))
     def get(self, request, order_id):
         order = Order.objects.get(pk=order_id)
         order_items = OrderItem.objects.filter(order=order)
@@ -115,10 +114,10 @@ class View_Order(View):
         return render(request, 'admin/order_customer.html', {'order': order, 'status_form': status_form})
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.username == 'admin2':
-            return super().dispatch(request, *args, **kwargs)
-        elif not request.user.is_superuser:
+        if not request.user.is_staff:
             return HttpResponseForbidden("<b><h2>دسترسی ممنوع است</h2></b><h4> .فقط مدیر سایت میتواند وارد شود</h4>")
+        return super().dispatch(request, *args, **kwargs)
+
 
 class ViewInventory(ListView):
     model = InventoryProduct
@@ -220,7 +219,7 @@ class Delete_Supplier(SuccessMessageMixin, DeleteView):
         return f"تامین کننده {self.object.name} حذف شد."
 
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_superuser:
+        if not request.user.is_staff:
             return HttpResponseForbidden("<b><h2>دسترسی ممنوع است</h2></b><h4> .فقط مدیر سایت میتواند وارد شود</h4>")
         return super().dispatch(request, *args, **kwargs)
 
@@ -236,7 +235,7 @@ class add_Supplier(SuccessMessageMixin, CreateView):
         return f'نام تامین کننده {self.object.name} اضافه شد.'
 
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_superuser:
+        if not request.user.is_staff or not request.user.is_superuser:
             return HttpResponseForbidden("<b><h2>دسترسی ممنوع است</h2></b><h4> .فقط مدیر سایت میتواند وارد شود</h4>")
         return super().dispatch(request, *args, **kwargs)
 
@@ -267,8 +266,10 @@ class Update_Supplier(SuccessMessageMixin, UpdateView):
 #             return HttpResponseForbidden("<b><h2>دسترسی ممنوع است</h2></b><h4> .فقط مدیر سایت میتواند وارد شود</h4>")
 #         return super().dispatch(request, *args, **kwargs)
 
-
+# @permission_required('products.view_product_variation')
 class Product_view_list(View):
+    # @method_decorator(login_required)
+    @method_decorator(permission_required('products.view_productvariation'))
     def get(self, request):
         product_v_list = ProductVariation.objects.all()
         product_cat_admin = ProductCategory.objects.all()
@@ -294,19 +295,20 @@ class Product_view_list(View):
         return render(request, 'admin/product_variation.html', context=context)
 
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_superuser:
+        if not request.user.is_staff:
             return HttpResponseForbidden("<b><h2>دسترسی ممنوع است</h2></b><h4> .فقط مدیر سایت میتواند وارد شود</h4>")
         return super().dispatch(request, *args, **kwargs)
 
 
-class Update_Pro_v(UpdateView):
+class Update_Pro_v(PermissionRequiredMixin,UpdateView):
+    permission_required = 'products.change_productvariation'
     model = ProductVariation
     template_name = 'admin/update_pro_va.html'
     pk_url_kwarg = 'id'
     form_class = Form_Update_ProV
 
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_superuser:
+        if not request.user.is_staff:
             return HttpResponseForbidden("<b><h2>دسترسی ممنوع است</h2></b><h4> .فقط مدیر سایت میتواند وارد شود</h4>")
         return super().dispatch(request, *args, **kwargs)
 
@@ -320,7 +322,8 @@ class Delete_ProductVariation(SuccessMessageMixin, DeleteView):
         return f"محصول {self.object.name} حذف شد."
 
 
-class add_category_product(SuccessMessageMixin, CreateView):
+class add_category_product(PermissionRequiredMixin,SuccessMessageMixin, CreateView):
+    permission_required = 'products.add_productcategory'
     model = ProductCategory
     template_name = 'admin/add_product_category.html'
     # fields = '__all__'
@@ -331,23 +334,25 @@ class add_category_product(SuccessMessageMixin, CreateView):
         return f'نام دسته جدید {self.object.name} اضافه شد.'
 
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_superuser:
+        if not request.user.is_staff:
             return HttpResponseForbidden("<b><h2>دسترسی ممنوع است</h2></b><h4> .فقط مدیر سایت میتواند وارد شود</h4>")
         return super().dispatch(request, *args, **kwargs)
 
 
-class List_cat_product(ListView):
+class List_cat_product(PermissionRequiredMixin,ListView):
+    permission_required = 'products.view_productcategory'
     model = ProductCategory
     template_name = 'admin/list_product_cat.html'
     context_object_name = 'list_cat_pro'
 
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_superuser:
+        if not request.user.is_staff:
             return HttpResponseForbidden("<b><h2>دسترسی ممنوع است</h2></b><h4> .فقط مدیر سایت میتواند وارد شود</h4>")
         return super().dispatch(request, *args, **kwargs)
 
 
-class Delete_cat_pro(DeleteView):
+class Delete_cat_pro(PermissionRequiredMixin,DeleteView):
+    permission_required = 'products.delete_productcategory'
     model = ProductCategory
     success_url = reverse_lazy('link_list_pro_cat')
     pk_url_kwarg = 'id'

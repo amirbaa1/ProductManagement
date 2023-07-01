@@ -1,9 +1,9 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseForbidden
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views import View
-
 from .forms import Form_add_product
 from .models import ProductCategory, ProductVariation, InventoryProduct, City
 from django.views.generic import ListView, DetailView, CreateView
@@ -55,21 +55,17 @@ class ProductVariation_Detail(DetailView):
     context_object_name = 'det_pro_v'
 
 
-class CreateProduct(SuccessMessageMixin, CreateView):
+class CreateProduct(PermissionRequiredMixin,SuccessMessageMixin, CreateView):
+    permission_required = 'products.add_productvariation'
     model = ProductVariation
     template_name = 'admin/add_product.html'
-    # fields = '__all__'
     form_class = Form_add_product
     context_object_name = 'create_prov'
 
     def get_success_message(self, cleaned_data):
         return f"محصول {self.object.name} اضافه شد."
 
-    # @method_decorator(user_passes_test(lambda u: u.is_superuser)) # فقط مدیر میتونه وارد اون لینک شود.
-    # def get(self, request, *args, **kwargs):
-    #     return super().get(request, *args, **kwargs)
-
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_superuser:
+        if not request.user.is_staff:
             return HttpResponseForbidden("<b><h2>دسترسی ممنوع است</h2></b><h4> .فقط مدیر سایت میتواند وارد شود</h4>")
         return super().dispatch(request, *args, **kwargs)

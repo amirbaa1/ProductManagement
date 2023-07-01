@@ -3,9 +3,10 @@
 <br>
 
 <h1>مدیریت فروشگاه</h1>
+<h3> نام ادمین : {{ user.username }}</h3>
 <br>
 <div class="d-flex justify-content-between align-items-center">
-    {% if user.is_superuser or user.username == 'admin2' or user.username == 'admin3' %}
+    {% if user.is_superuser or user.is_staff %}
     <div class="col-md-6 style_panel_left">
         <div class="card">
             <div class="card-body text-center">
@@ -22,9 +23,9 @@
                     </svg>
                 </h5>
                 <br>
-                {% if user.username == 'admin2' or user.username == 'admin3' %}
+                {% if user.username == 'admin3' %}
                 <button type="button" class="btn btn-outline-primary" disabled>
-                    <a class="nav-link active" href="{% url 'link_list_pro_v' %}">جزئیات محصولات</a>
+                    <a class="nav-link active" href="{% url 'link_list_pro_v' %}">اجازه ورود ندارید</a>
                 </button>
                 {% else %}
                 <button type="button" class="btn btn-primary btn">
@@ -48,9 +49,15 @@
                     </svg>
                 </h5>
                 <br>
+                {% if user.username == 'admin2'%}
+                <button type="button" class="btn btn-outline-primary" disabled>
+                    <a class="nav-link active" href="{% url 'list_order_customer' %}">مجوز ندارید</a>
+                </button>
+                {% else %}
                 <button type="button" class="btn btn-primary btn">
                     <a class="nav-link active" href="{% url 'list_order_customer' %}"> لیست سفارش‌ها</a>
                 </button>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -68,9 +75,15 @@
                     </svg>
                 </h5>
                 <br>
+                {% if user.username == 'admin3' or user.username == 'admin2' %}
+                <button type="button" class="btn btn-outline-primary" disabled>
+                    <a class="nav-link active" href="{% url 'link_sup_list' %}">مجوز ندارید</a>
+                </button>
+                {% else %}
                 <button type="button" class="btn btn-primary btn">
                     <a class="nav-link active" href="{% url 'link_sup_list' %}">جزئیات تامین کننده</a>
                 </button>
+                {% endif %}
             </div>
         </div>
         <br>
@@ -87,15 +100,15 @@
                     </svg>
                 </h5>
                 <br>
-                {% if user.username == 'admin2' or user.username == 'admin3' %}
+                {% if user.username == 'admin3' or user.username == 'admin2' %}
                 <button type="button" class="btn btn-outline-primary" disabled>
-                    <a class="nav-link active" href="{% url 'list_inv' %}">جزئیات انبار</a>
+                    <a class="nav-link active" href="{% url 'list_inv' %}">مجوز ندارید</a>
                 </button>
                 {% else %}
                 <button type="button" class="btn btn-primary btn">
                     <a class="nav-link active" href="{% url 'list_inv' %}">جزئیات انبار</a>
                 </button>
-                {% endif %}
+                {% endif%}
             </div>
         </div>
     </div>

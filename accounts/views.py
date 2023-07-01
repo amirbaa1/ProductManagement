@@ -43,7 +43,5 @@ class EditProfile(SuccessMessageMixin, UpdateView):
     success_message = 'با موفقیت اپدیت شد.'
 
 
-class SittingView(TemplateView):
-    template_name = 'profile/setting.html'
 
 

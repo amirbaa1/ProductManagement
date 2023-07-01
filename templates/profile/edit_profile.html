@@ -7,6 +7,7 @@
             <form action="" method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
+                <p>توجه با تغییر شهر ادرس انبار محصولات هم تغییر خواهد کرد !</p>
                 <button type="submit" class="btn btn-primary">اپدیت</button>
                 <button type="submit" class="btn btn-primary">
                     <a class="nav-link active" aria-current="page" href="{% url 'my_profile' username=user.username %}">
@@ -19,7 +20,6 @@
                             <path d="M5 12l6 6"></path>
                             <path d="M5 12l6 -6"></path>
                         </svg>
-
                     </a>
                 </button>
             </form>

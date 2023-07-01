@@ -82,9 +82,16 @@
                     {% for item in order.order_items.all %}
                     <tr>
                         <th scope="row">{{ forloop.counter }}</th>
-                        <td>{{ item.product_variation }}</td>
+
+                        <td>
+                            {% if item.product_variation.pk is None %}
+                            متاسفانه کالا حذف شده است، با مدیر فروش تماس بگیرید.
+                            {% else %}
+                            {{ item.product_variation }}
+                        </td>
                         <td>{{ item.quantity }}</td>
                         <td>{{ item.unit_price }}</td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                     </tbody>
