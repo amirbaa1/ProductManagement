@@ -49,7 +49,8 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">انبار</th>
-                <th scope="col">محصول</th>
+                <th scope="col">محصول
+                <th scope="col">تعداد</th>
                 <th scope="col">حذف</th>
 
             </tr>
@@ -60,6 +61,7 @@
                 <th scope="row">{{ forloop.counter }}</th>
                 <td>{{i.inventoryId}}</td>
                 <td>{{ i.productId.name }}</td>
+                 <td>{{i.quantity}}</td>
                 <td>
                     <form method="post" action="{% url 'delete-inv' i.pk %}">
                         {% csrf_token %}

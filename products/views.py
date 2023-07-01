@@ -23,14 +23,6 @@ class ProductListViews(View):
         default_product_v = ProductVariation.objects.all()
 
         category = request.GET.get('categories')
-        # category_city = request.GET.get('categories_city')
-
-        # if category:
-        #     product_v = ProductVariation.objects.filter(productId=category)
-        # product_v = ProductVariation.objects.filter(Q(productId=category) & Q(cityId=category_city))
-
-        # if category_city:
-        #     product_v = product_v.filter(cityId=category)
 
         if category:
             product_v = product_v.filter(productId=category)

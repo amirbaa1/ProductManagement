@@ -32,7 +32,7 @@ python manage.py runserver
                         <th scope="row">2</th>
                         <td>admin2</td>
                         <td>123</td>
-                        <td>بررسی و تغییر وضعیت سفارش</td>
+                        <td>اضافه کردن محصولات و تغییر قیمت</td>
                     </tr>
                     </tbody>
                     <tbody>
@@ -40,7 +40,7 @@ python manage.py runserver
                         <th scope="row">3</th>
                         <td>admin3</td>
                         <td>123</td>
-                        <td>اضافه کردن محصولات و تغییر قیمت</td>
+                        <td>بررسی و تغییر وضعیت سفارش</td>
                     </tr>
                     </tbody>
 </table>

@@ -4,9 +4,10 @@
 .r-nav-text{
     float:right
 }
-.body {
-    font-family: Vazirmatn, sans-serif;
+.body_text {
+    font-family: Vazir;
     background-color: #f9f9f9;
+    padding-top: 60px;
 }
 
 .navbar-nav {
@@ -38,6 +39,12 @@
 
 .style_panel_right{
     margin-right: 8px;
+}
 
+.icon-container {
+    display: flex;
+}
 
+.nav-linkk {
+    margin-right: 10px;
 }

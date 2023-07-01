@@ -12,10 +12,11 @@ class Form_add_product(forms.ModelForm):
     quantity = forms.IntegerField(label='تعداد', widget=forms.TextInput(attrs={'class': 'form-control'}))
     cityId = forms.ModelChoiceField(label='شهر', queryset=City.objects.all(),
                                     widget=forms.Select(attrs={'class': 'form-control'}))
+    text = forms.CharField(label='توضیحات', required=False, widget=forms.Textarea(attrs={'class': 'form-control'}))
 
     class Meta:
         model = ProductVariation
-        fields = ['productId', 'name', 'Supplier', 'price', 'quantity', 'cityId']
+        fields = ['productId', 'name', 'Supplier', 'price', 'quantity', 'cityId','text']
 
 
 class Form_add_cityInventory(forms.ModelForm):
@@ -83,3 +84,5 @@ class Form_add_category_product(forms.ModelForm):
     class Meta:
         model = ProductCategory
         fields = ['name']
+
+

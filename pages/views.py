@@ -268,7 +268,6 @@ class Update_Supplier(SuccessMessageMixin, UpdateView):
 
 # @permission_required('products.view_product_variation')
 class Product_view_list(View):
-    # @method_decorator(login_required)
     @method_decorator(permission_required('products.view_productvariation'))
     def get(self, request):
         product_v_list = ProductVariation.objects.all()
@@ -300,7 +299,7 @@ class Product_view_list(View):
         return super().dispatch(request, *args, **kwargs)
 
 
-class Update_Pro_v(PermissionRequiredMixin,UpdateView):
+class Update_Pro_v(PermissionRequiredMixin, UpdateView):
     permission_required = 'products.change_productvariation'
     model = ProductVariation
     template_name = 'admin/update_pro_va.html'
@@ -322,7 +321,7 @@ class Delete_ProductVariation(SuccessMessageMixin, DeleteView):
         return f"محصول {self.object.name} حذف شد."
 
 
-class add_category_product(PermissionRequiredMixin,SuccessMessageMixin, CreateView):
+class add_category_product(PermissionRequiredMixin, SuccessMessageMixin, CreateView):
     permission_required = 'products.add_productcategory'
     model = ProductCategory
     template_name = 'admin/add_product_category.html'
@@ -339,7 +338,7 @@ class add_category_product(PermissionRequiredMixin,SuccessMessageMixin, CreateVi
         return super().dispatch(request, *args, **kwargs)
 
 
-class List_cat_product(PermissionRequiredMixin,ListView):
+class List_cat_product(PermissionRequiredMixin, ListView):
     permission_required = 'products.view_productcategory'
     model = ProductCategory
     template_name = 'admin/list_product_cat.html'
@@ -351,7 +350,7 @@ class List_cat_product(PermissionRequiredMixin,ListView):
         return super().dispatch(request, *args, **kwargs)
 
 
-class Delete_cat_pro(PermissionRequiredMixin,DeleteView):
+class Delete_cat_pro(PermissionRequiredMixin, DeleteView):
     permission_required = 'products.delete_productcategory'
     model = ProductCategory
     success_url = reverse_lazy('link_list_pro_cat')
@@ -359,3 +358,7 @@ class Delete_cat_pro(PermissionRequiredMixin,DeleteView):
 
     def get_success_message(self, cleaned_data):
         return f"دسته بندی {self.object.name} حذف شد."
+
+
+
+

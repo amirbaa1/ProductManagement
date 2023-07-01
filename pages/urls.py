@@ -1,10 +1,8 @@
-from django.contrib.auth.decorators import login_required
 from django.urls import path
 from .views import *
 from products.views import ProductListViews
 
 urlpatterns = [
-    # path('', ProductVariationView.as_view(), name='home'),
     path('', ProductListViews.as_view(), name='home'),
     path('about/', AboutPage.as_view(), name='about'),
     path('contact_us/', ContactUsPage.as_view(), name='contact_us'),
