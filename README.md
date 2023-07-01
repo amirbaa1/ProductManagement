@@ -2,7 +2,7 @@
 * هدف اصلی این پروژه، مدیریت انبار و محصولات در فروشگاه آنلاین است. کاربران می‌توانند موجودی انبار را به روزرسانی کنند، سفارشات مشتریان را پیگیری کنند و مشتریان نیز قادر خواهند بود سفارشات خود را ثبت کرده و وضعیت سفارشات خود را بررسی کنند.
 ----
 ## اجرا دمو
-[amirbaa1.pythonanywhere.com](amirbaa1.pythonanywhere.com)
+[amirbaa1.pythonanywhere.com](http://amirbaa1.pythonanywhere.com)
 
  <table>
                     <thead>
